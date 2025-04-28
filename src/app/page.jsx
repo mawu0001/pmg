@@ -111,8 +111,10 @@ export default function Home() {
     }}>
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-darker font-black">DOKUMENTFREMVISER</h1>
-          
+          <div>
+          <h1 className="fluid-title font-darker font-black" >DOKUMENTFREMVISER</h1>
+<p className="text-sm -mt-2 font-darker font-medium">Til testing af annonceringer i bladene <strong>Ud & Se</strong> eller <strong>Samvirke</strong>, for Piccolo Media Group.</p>
+</div>
           {/* Dark Mode Toggle */}
           <div className="flex items-center">
             <span className="mr-2 text-sm" aria-hidden="true">Lys</span>
@@ -127,7 +129,7 @@ export default function Home() {
                 alignItems: "center",
                 borderRadius: "9999px",
                 transition: "background-color 0.3s",
-                backgroundColor: isDarkMode ? colors.red_color : "#E5E7EB", // Using red color for dark mode toggle
+                backgroundColor: isDarkMode ? colors.red_color : "#E5E7EB",
                 outline: "none"
               }}
               onClick={toggleDarkMode}
