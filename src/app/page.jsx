@@ -8,7 +8,15 @@ export default function Home() {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [fileType, setFileType] = useState("");
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Color definitions
+  const colors = {
+    red_color: "#FF0000",    // red
+    black_color: "#000000",  // black
+    white_color: "#FFFFFF",  // white
+  };
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -96,10 +104,14 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>
+    <div style={{ 
+      minHeight: "100vh", 
+      backgroundColor: isDarkMode ? colors.black_color : colors.white_color,
+      color: isDarkMode ? colors.white_color : colors.black_color 
+    }}>
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold">Dokumentfremviser</h1>
+          <h1 className="text-2xl font-bold">Dummy Dokumentfremviser</h1>
           
           {/* Dark Mode Toggle */}
           <div className="flex items-center">
@@ -107,16 +119,30 @@ export default function Home() {
             <button 
               role="switch"
               aria-checked={isDarkMode}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                isDarkMode ? "bg-blue-600" : "bg-gray-200"
-              }`}
+              style={{
+                position: "relative",
+                display: "inline-flex",
+                height: "1.5rem",
+                width: "2.75rem",
+                alignItems: "center",
+                borderRadius: "9999px",
+                transition: "background-color 0.3s",
+                backgroundColor: isDarkMode ? colors.red_color : "#E5E7EB", // Using red color for dark mode toggle
+                outline: "none"
+              }}
               onClick={toggleDarkMode}
             >
               <span className="sr-only">Skift mørk tilstand</span>
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  isDarkMode ? "translate-x-6" : "translate-x-1"
-                }`}
+                style={{
+                  display: "inline-block",
+                  height: "1rem",
+                  width: "1rem",
+                  transform: isDarkMode ? "translateX(1.5rem)" : "translateX(0.25rem)",
+                  borderRadius: "9999px",
+                  backgroundColor: colors.white_color,
+                  transition: "transform 0.3s"
+                }}
               />
             </button>
             <span className="ml-2 text-sm" aria-hidden="true">Mørk</span>
@@ -125,9 +151,14 @@ export default function Home() {
 
         {/* Main Upload Area */}
         <div 
-          className={`border-2 border-dashed rounded-lg p-12 text-center ${
-            isDarkMode ? "border-gray-600 bg-gray-800" : "border-gray-300 bg-white"
-          }`}
+          style={{
+            border: "2px dashed",
+            borderColor: isDarkMode ? "#4B5563" : "#D1D5DB",
+            borderRadius: "0.5rem",
+            padding: "3rem",
+            textAlign: "center",
+            backgroundColor: isDarkMode ? "#1F2937" : colors.white_color
+          }}
           onClick={triggerFileInput}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -147,7 +178,12 @@ export default function Home() {
             accept={Object.values(supportedFormats).flat().join(",")}
           />
           <svg 
-            className={`mx-auto h-12 w-12 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`} 
+            style={{ 
+              margin: "0 auto", 
+              height: "3rem", 
+              width: "3rem", 
+              color: isDarkMode ? "#9CA3AF" : "#4B5563" 
+            }}
             stroke="currentColor" 
             fill="none" 
             viewBox="0 0 48 48" 
@@ -163,37 +199,84 @@ export default function Home() {
           <p className="mt-2 text-sm">Klik eller træk og slip for at uploade en fil</p>
         </div>
 
-        {/* Supported File Format Info */}
-        <div className={`mt-8 p-4 rounded-md ${isDarkMode ? "bg-gray-800" : "bg-gray-50"}`}>
-          <h2 className="text-lg font-black mb-2">Understøttede filformater</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h3 className="font-medium">Billeder</h3>
-              <p className="text-sm font-light">{supportedFormats.images.join(", ")}</p>
-            </div>
-            <div>
-              <h3 className="font-medium">Dokumenter</h3>
-              <p className="text-sm font-light">{supportedFormats.documents.join(", ")}</p>
+        {/* Supported file format info */}
+        <div style={{ 
+          marginTop: "2rem", 
+          padding: "1rem", 
+          borderRadius: "0.375rem",
+          backgroundColor: isDarkMode ? "#4B5563" : "#F9FAFB" 
+        }}>
+          <h2 className="text-lg font-bold mb-2">Understøttede filformater</h2>
+          <a 
+            className="text-sm hover:underline" 
+            aria-roledescription="link to external PDF" 
+            aria-label="link" 
+            href="https://piccolomedia.dk/wp-content/uploads/SAMVIRKE_Nyeformater.pdf"
+          >
+            Prislister og formatmål for <strong>Samvirke</strong>
+          </a>
+          <br />
+          <a 
+            className="text-sm hover:underline" 
+            aria-roledescription="link to external PDF" 
+            aria-label="link" 
+            href="https://piccolomedia.dk/wp-content/uploads/udogse-priser-og-betingelser_DL.pdf"
+          >
+            Prislister og formatmål for <strong>Ud & Se</strong>
+          </a>
+          
+          {/* Changed grid layout to flex with formats stacked on the right */}
+          <div className="flex flex-row justify-end">
+            <div className="flex flex-col">
+              <div className="mb-2">
+                <h3 className="font-bold">Billeder</h3>
+                <p className="text-sm font-light">{supportedFormats.images.join(", ")}</p>
+              </div>
+              <div>
+                <h3 className="font-bold">Dokumenter</h3>
+                <p className="text-sm font-light">{supportedFormats.documents.join(", ")}</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Preview Modal */}
+        {/* Preview modal */}
         {isModalOpen && (
           <div 
-            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-60"
+            style={{
+              position: "fixed",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 50, 
+              backgroundColor: "rgba(0, 0, 0, 0.6)"
+            }}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
           >
-            <div className={`relative w-full max-w-4xl p-6 rounded-lg shadow-xl ${isDarkMode ? "bg-gray-800" : "bg-white"}`}>
-              {/* Modal Header */}
+            <div style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "56rem",
+              padding: "1.5rem",
+              borderRadius: "0.5rem",
+              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              backgroundColor: isDarkMode ? colors.black_color : colors.white_color,
+              color: isDarkMode ? colors.white_color : colors.black_color,
+              border: `1px solid ${isDarkMode ? colors.white_color : colors.black_color}`
+            }}>
+              {/* Modal header */}
               <div className="flex justify-between items-center mb-4">
                 <h2 id="modal-title" className="text-xl font-bold truncate max-w-md">
                   {file && file.name}
                 </h2>
                 <button
-                  className="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                  style={{
+                    color: colors.red_color,
+                    outline: "none"
+                  }}
                   onClick={closeModal}
                   aria-label="Luk forhåndsvisning"
                 >
@@ -203,12 +286,12 @@ export default function Home() {
                 </button>
               </div>
 
-              {/* Preview Content */}
+              {/* Preview content */}
               <div className="mb-6">
                 {renderPreview()}
               </div>
 
-              {/* File Info */}
+              {/* File info */}
               <div className="mb-6">
                 <p className="text-sm">
                   <span className="font-medium">Type:</span> {file && file.type}
@@ -218,10 +301,19 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Actions */}
+              {/* Actions (knap) with hover effect */}
               <div className="flex justify-end">
                 <button
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  style={{
+                    padding: "0.5rem 1rem",
+                    backgroundColor: isButtonHovered ? colors.black_color : colors.red_color,
+                    color: colors.white_color,
+                    borderRadius: "0.25rem",
+                    outline: "none",
+                    transition: "background-color 0.3s ease"
+                  }}
+                  onMouseEnter={() => setIsButtonHovered(true)}
+                  onMouseLeave={() => setIsButtonHovered(false)}
                   onClick={downloadFile}
                   aria-label="Download fil"
                 >
