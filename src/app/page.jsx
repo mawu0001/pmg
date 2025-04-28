@@ -58,9 +58,7 @@ export default function Home() {
   // Supported file formats
   const supportedFormats = {
     images: [".jpg", ".jpeg", ".png", ".gif", ".svg", ".webp"],
-    documents: [".pdf", ".txt", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx"],
-    audio: [".mp3", ".wav", ".ogg"],
-    video: [".mp4", ".webm", ".avi"]
+    documents: [".pdf", ".txt", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx"]
   };
 
   // Render preview based on file type
@@ -75,7 +73,7 @@ export default function Home() {
             alt={file.name} 
             fill 
             className="object-contain" 
-            aria-label={`Preview of ${file.name}`}
+            aria-label={`Forhåndsvisning af ${file.name}`}
           />
         </div>
       );
@@ -84,37 +82,14 @@ export default function Home() {
         <iframe 
           src={previewUrl} 
           className="w-full h-96" 
-          title="PDF Preview"
-          aria-label="PDF document preview"
+          title="PDF Forhåndsvisning"
+          aria-label="PDF dokument forhåndsvisning"
         />
-      );
-    } else if (fileType.startsWith("video/")) {
-      return (
-        <video 
-          src={previewUrl} 
-          controls 
-          className="w-full max-h-96" 
-          aria-label="Video preview"
-        >
-          <track kind="captions" label="English captions" />
-          Your browser does not support the video tag.
-        </video>
-      );
-    } else if (fileType.startsWith("audio/")) {
-      return (
-        <audio 
-          src={previewUrl} 
-          controls 
-          className="w-full" 
-          aria-label="Audio preview"
-        >
-          Your browser does not support the audio tag.
-        </audio>
       );
     } else {
       return (
         <div className="flex items-center justify-center h-64 text-center">
-          <p>Preview not available for this file type. You can still download the file.</p>
+          <p>Forhåndsvisning er ikke tilgængelig for denne filtype. Du kan stadig downloade filen.</p>
         </div>
       );
     }
@@ -124,11 +99,11 @@ export default function Home() {
     <div className={`min-h-screen ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold">Dummy file Previewer</h1>
+          <h1 className="text-2xl font-bold">Dokumentfremviser</h1>
           
           {/* Dark Mode Toggle */}
           <div className="flex items-center">
-            <span className="mr-2 text-sm" aria-hidden="true">Light</span>
+            <span className="mr-2 text-sm" aria-hidden="true">Lys</span>
             <button 
               role="switch"
               aria-checked={isDarkMode}
@@ -137,14 +112,14 @@ export default function Home() {
               }`}
               onClick={toggleDarkMode}
             >
-              <span className="sr-only">Toggle dark mode</span>
+              <span className="sr-only">Skift mørk tilstand</span>
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
                   isDarkMode ? "translate-x-6" : "translate-x-1"
                 }`}
               />
             </button>
-            <span className="ml-2 text-sm" aria-hidden="true">Dark</span>
+            <span className="ml-2 text-sm" aria-hidden="true">Mørk</span>
           </div>
         </div>
 
@@ -161,7 +136,7 @@ export default function Home() {
           }}
           tabIndex="0"
           role="button"
-          aria-label="Upload file"
+          aria-label="Upload fil"
         >
           <input
             type="file"
@@ -185,19 +160,19 @@ export default function Home() {
               strokeLinejoin="round" 
             />
           </svg>
-          <p className="mt-2 text-sm">Click or drag and drop to upload a file</p>
+          <p className="mt-2 text-sm">Klik eller træk og slip for at uploade en fil</p>
         </div>
 
         {/* Supported File Format Info */}
         <div className={`mt-8 p-4 rounded-md ${isDarkMode ? "bg-gray-800" : "bg-gray-50"}`}>
-          <h2 className="text-lg font-black mb-2">Supported File Formats</h2>
+          <h2 className="text-lg font-black mb-2">Understøttede filformater</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <h3 className="font-medium">Images</h3>
+              <h3 className="font-medium">Billeder</h3>
               <p className="text-sm font-light">{supportedFormats.images.join(", ")}</p>
             </div>
             <div>
-              <h3 className="font-medium">Documents</h3>
+              <h3 className="font-medium">Dokumenter</h3>
               <p className="text-sm font-light">{supportedFormats.documents.join(", ")}</p>
             </div>
           </div>
@@ -220,7 +195,7 @@ export default function Home() {
                 <button
                   className="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                   onClick={closeModal}
-                  aria-label="Close preview"
+                  aria-label="Luk forhåndsvisning"
                 >
                   <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M6 18L18 6M6 6l12 12"></path>
@@ -239,7 +214,7 @@ export default function Home() {
                   <span className="font-medium">Type:</span> {file && file.type}
                 </p>
                 <p className="text-sm">
-                  <span className="font-medium">Size:</span> {file && (file.size / 1024 / 1024).toFixed(2)} MB
+                  <span className="font-medium">Størrelse:</span> {file && (file.size / 1024 / 1024).toFixed(2)} MB
                 </p>
               </div>
 
@@ -248,7 +223,7 @@ export default function Home() {
                 <button
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                   onClick={downloadFile}
-                  aria-label="Download file"
+                  aria-label="Download fil"
                 >
                   Download
                 </button>
