@@ -111,7 +111,7 @@ export default function Home() {
     }}>
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold">Dummy Dokumentfremviser</h1>
+          <h1 className="text-2xl font-darker font-black">DOKUMENTFREMVISER</h1>
           
           {/* Dark Mode Toggle */}
           <div className="flex items-center">
