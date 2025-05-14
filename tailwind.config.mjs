@@ -12,8 +12,9 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
-        heading: ["Poppins", "sans-serif"],
+        heading: ['"Museo"', "sans-serif"],
         darker: ['"Darker Grotesque"', 'sans-serif'],
+        paragraphs: ['"Roboto Condensed"', 'sans-serif']
       },
       fontSize: {
         step_h1: "clamp(2.5rem, 2.1522rem + 1.7391vw, 3.5rem)",

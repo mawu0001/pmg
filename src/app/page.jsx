@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 export default function MagazineAdUploader() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [selectedMagazine, setSelectedMagazine] = useState("udogse"); // Default magazine
@@ -17,8 +16,8 @@ export default function MagazineAdUploader() {
     red_color: "#FF0000",    // red
     black_color: "#000000",  // black
     white_color: "#FFFFFF",  // white
-    udogse_color: "#003575", // Ud & Se blue
-    samvirke_color: "#8BC000" // Samvirke green
+    udogse_color: "#000000", // Ud & Se black
+    samvirke_color: "#FF0000" // Samvirke red
   };
 
   // Check for mobile view on component mount and on resize
@@ -82,9 +81,6 @@ export default function MagazineAdUploader() {
     }
   };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -178,10 +174,10 @@ export default function MagazineAdUploader() {
         
         {/* Magazine Content - Two Page Spread */}
         <div 
-          className="flex flex-row w-full"
+          className="flex flex-row w-full mt-10 mb-10"
           style={{ 
             backgroundColor: template.secondaryColor,
-            minHeight: "65vh"
+            minHeight: "85vh"
           }}
         >
           {/* Left Page */}
@@ -359,9 +355,9 @@ export default function MagazineAdUploader() {
   return (
     <div style={{ 
       minHeight: "100vh", 
-      backgroundColor: isDarkMode ? colors.black_color : colors.white_color,
-      color: isDarkMode ? colors.white_color : colors.black_color 
-    }}>
+      backgroundColor: colors.white_color,
+      color: colors.black_color
+    }}>    
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -371,58 +367,36 @@ export default function MagazineAdUploader() {
             </p>
           </div>
           
-          {/* Dark Mode Toggle */}
-          <div className="flex items-center">
-            <span className="mr-2 text-sm" aria-hidden="true">Lys</span>
-            <button 
-              role="switch"
-              aria-checked={isDarkMode}
-              className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none"
-              style={{
-                backgroundColor: isDarkMode ? colors.red_color : "#E5E7EB"
-              }}
-              onClick={toggleDarkMode}
-            >
-              <span className="sr-only">Skift mørk tilstand</span>
-              <span
-                className="inline-block h-4 w-4 rounded-full bg-white transition-transform"
-                style={{
-                  transform: isDarkMode ? "translateX(1.5rem)" : "translateX(0.25rem)"
-                }}
-              />
-            </button>
-            <span className="ml-2 text-sm" aria-hidden="true">Mørk</span>
-          </div>
         </div>
 
         {/* Magazine Selection */}
         <div className="mb-6">
           <h2 className="text-lg font-bold mb-2">Vælg magasin</h2>
           <div className="flex space-x-4">
-            <button
-              className="px-4 py-2 rounded transition-colors"
-              style={{
-                backgroundColor: selectedMagazine === "udogse" 
-                  ? colors.udogse_color 
-                  : isDarkMode ? "#1F2937" : "#F3F4F6",
-                color: selectedMagazine === "udogse" ? colors.white_color : isDarkMode ? colors.white_color : colors.black_color
-              }}
-              onClick={() => setSelectedMagazine("udogse")}
-            >
-              Ud & Se
-            </button>
-            <button
-              className="px-4 py-2 rounded transition-colors"
-              style={{
-                backgroundColor: selectedMagazine === "samvirke" 
-                  ? colors.samvirke_color 
-                  : isDarkMode ? "#1F2937" : "#F3F4F6",
-                color: selectedMagazine === "samvirke" ? colors.white_color : isDarkMode ? colors.white_color : colors.black_color
-              }}
-              onClick={() => setSelectedMagazine("samvirke")}
-            >
-              Samvirke
-            </button>
+          <button
+  className="px-4 py-2 rounded-2xl transition-colors"
+  style={{
+    backgroundColor: selectedMagazine === "udogse" ? colors.udogse_color : colors.white_color,
+    color: selectedMagazine === "udogse" ? colors.white_color : colors.black_color,
+    border: selectedMagazine === "udogse" ? "none" : "2px solid black"
+  }}
+  onClick={() => setSelectedMagazine("udogse")}
+>
+  Ud & Se
+</button>
+<button
+  className="px-4 py-2 rounded-2xl transition-colors"
+  style={{
+    backgroundColor: selectedMagazine === "samvirke" ? colors.samvirke_color : colors.white_color,
+    color: selectedMagazine === "samvirke" ? colors.white_color : "#FF0000",
+    border: selectedMagazine === "samvirke" ? "none" : "2px solid #FF0000"
+  }}              
+  onClick={() => setSelectedMagazine("samvirke")}
+>
+  Samvirke
+</button>
+
+
           </div>
         </div>
 
@@ -435,26 +409,27 @@ export default function MagazineAdUploader() {
         {/* Action buttons */}
         <div className="flex justify-end mt-4">
           
-          <button
-            className="px-6 py-3 rounded transition-colors text-lg font-medium"
-            style={{
-              backgroundColor: isButtonHovered ? colors.black_color : colors.red_color,
-              color: colors.white_color
-            }}
-            onMouseEnter={() => setIsButtonHovered(true)}
-            onMouseLeave={() => setIsButtonHovered(false)}
-            onClick={downloadMagazine}
-            disabled={!selectedImage}
-          >
-            Gem annonce i magasinet
-          </button>
+<button
+  className="px-6 py-3 rounded-2xl transition-colors text-lg font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+  style={{
+    backgroundColor: isButtonHovered
+      ? (selectedMagazine === "samvirke" ? colors.black_color : colors.red_color)
+      : (selectedMagazine === "samvirke" ? colors.red_color : colors.black_color),
+    color: colors.white_color
+  }}
+  onMouseEnter={() => setIsButtonHovered(true)}
+  onMouseLeave={() => setIsButtonHovered(false)}
+  onClick={downloadMagazine}
+  disabled={!selectedImage}
+>
+  Gem annonce i magasinet
+</button>
+
         </div>
 
         {/* Information and specifications */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-4 rounded-md" style={{ 
-            backgroundColor: isDarkMode ? "#4B5563" : "#F9FAFB" 
-          }}>
+          <div className="p-4 rounded-md">
             <h2 className="text-lg font-bold mb-2">Annonceformater</h2>
             <p className="text-sm mb-4">Annoncen skal uploades som et billede i et af følgende formater:</p>
             
@@ -476,9 +451,7 @@ export default function MagazineAdUploader() {
             </table>
           </div>
           
-          <div className="p-4 rounded-md" style={{ 
-            backgroundColor: isDarkMode ? "#4B5563" : "#F9FAFB" 
-          }}>
+          <div className="p-4 rounded-md">
             <h2 className="text-lg font-bold mb-2">Billedkrav</h2>
             <ul className="text-sm space-y-2">
               <li>• Billedfiler skal være i formaterne: {supportedFormats.join(", ")}</li>
@@ -491,14 +464,12 @@ export default function MagazineAdUploader() {
               <h3 className="font-bold text-sm mb-1">Links til specifikationer</h3>
               <a 
                 className="text-sm hover:underline block" 
-                style={{ color: isDarkMode ? "#D1D5DB" : "#1F2937" }}
                 href="https://piccolomedia.dk/wp-content/uploads/SAMVIRKE_Nyeformater.pdf"
               >
                 Prislister og formatmål for <strong>Samvirke</strong>
               </a>
               <a 
                 className="text-sm hover:underline block" 
-                style={{ color: isDarkMode ? "#D1D5DB" : "#1F2937" }}
                 href="https://piccolomedia.dk/wp-content/uploads/udogse-priser-og-betingelser_DL.pdf"
               >
                 Prislister og formatmål for <strong>Ud & Se</strong>
