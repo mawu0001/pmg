@@ -2,13 +2,6 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
-// CSS-variabl til scaling af magasinet
-const globalStyles = `
-  :root {
-    --magazine-scale: 1;
-  }
-`;
-
 // Farver fra PMG
 const colors = {
   red_color: "#FF0000",    // rød
@@ -18,7 +11,7 @@ const colors = {
   samvirke_color: "#FF0000" // Samvirke rød
 };
 
-// Supported file formats - now only images
+// filformater til upload
 const supportedFormats = [
   ".jpg", ".jpeg", ".png", ".gif", ".webp"
 ];
@@ -104,12 +97,10 @@ const MagazineSpread = ({
   
   return (
     <div 
-      className="flex flex-col bg-white text-black shadow-xl mx-auto"
-      style={{
-        width: "420mm",    // defineret width af 420mm
-        height: "300mm",   // defineret height af 300mm
-        transform: "scale(var(--magazine-scale))",
-        transformOrigin: "center top"
+      className="flex flex-col bg-white text-black shadow-xl mx-auto w-full"
+      style={{ 
+        aspectRatio: "1.4/1", // Approximates the 420mm x 300mm original ratio
+        maxWidth: "1200px"
       }}
       role="region"
       aria-label={`${template.title} magazine preview, pages ${currentPage}-${currentPage + 1}`}
@@ -139,11 +130,9 @@ const MagazineSpread = ({
       
       {/* Magazine Content - Two Page Spread */}
       <div 
-        className="flex flex-row w-full"
+        className="flex flex-row w-full flex-grow"
         style={{ 
-          backgroundColor: template.secondaryColor,
-          height: "calc(300mm - 90px)", // defineret height for content area
-          overflow: "hidden"
+          backgroundColor: template.secondaryColor
         }}
       >
         {/* Venstre side - Content */}
@@ -157,12 +146,12 @@ const MagazineSpread = ({
             </h1>
             
             {/* billede for venstre side */}
-            <div className="flex-1 relative w-full h-full">
+            <div className="flex-1 relative w-full">
               <Image 
                 src={currentPageContent.image} 
                 alt={currentPageContent.caption}
                 fill
-                className="object-fit"
+                className="object-cover"
                 style={{ width: "100%", height: "100%" }}
                 priority
                 aria-describedby={`page-${currentPage}-description`}
@@ -305,22 +294,8 @@ const MagazineSpread = ({
   );
 };
 
-
 // Main Component
 export default function MagazineAdUploader() {
-  // Indsæt global styles
-  useEffect(() => {
-    // tilføj global styles til head
-    const styleElement = document.createElement('style');
-    styleElement.innerHTML = globalStyles;
-    document.head.appendChild(styleElement);
-    
-    // Clean
-    return () => {
-      document.head.removeChild(styleElement);
-    };
-  }, []);
-  
   // States
   const [selectedImage, setSelectedImage] = useState(null);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
@@ -332,7 +307,6 @@ export default function MagazineAdUploader() {
   
   // Refs
   const fileInputRef = useRef(null);
-  const magazineContainerRef = useRef(null);
 
   // Tjek efter mobilstørrelse, og tilføj fejl hvis på mobil
   useEffect(() => {
@@ -342,135 +316,91 @@ export default function MagazineAdUploader() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Sidens scaling logik
+  // Når brugeren vælger et nyt magasin, vis første side
   useEffect(() => {
-    // omregn mm til px 
-    const calculateMagazineScale = () => {
-      const magazineWidth = 420; // mm
-      const magazineHeight = 300; // mm
-      
-      // Container dimensions, med padding
-      const containerWidth = document.querySelector('.magazine-container-wrapper')?.clientWidth || window.innerWidth * 0.95;
-      
-      // Udregn mulig højde
-      const headerHeight = document.querySelector('.magazine-header')?.offsetHeight || 100;
-      const footerHeight = document.querySelector('.magazine-footer')?.offsetHeight || 150;
-      const availableHeight = window.innerHeight - headerHeight - footerHeight - 40; // 40px ekstra margins
-      
-// Konverter millimeter til pixels (ca. 1mm ≈ 3.78px ved 96 dpi)
-const magazineWidthInPx = magazineWidth * 3.78;
-const magazineHeightInPx = magazineHeight * 3.78;
+    setCurrentPageIndex(0);
+  }, [selectedMagazine]);
 
-// Beregn skalering baseret på både bredde og højde
-const scaleFactorWidth = containerWidth / magazineWidthInPx;
-const scaleFactorHeight = availableHeight / magazineHeightInPx;
-
-// Brug den mindste skaleringsværdi, så magasinet altid passer ind i rammen
-const scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight, 1);
-
-// Gem skaleringsfaktor som en CSS-variabel
-document.documentElement.style.setProperty('--magazine-scale', scaleFactor.toString());
-
-// Justér containerens højde, så den passer til magasinet efter skalering
-if (magazineContainerRef.current) {
-  const scaledHeight = magazineHeightInPx * scaleFactor;
-  magazineContainerRef.current.style.height = `${scaledHeight}px`;
-}
+  // Ryd op i billede-linket når komponenten fjernes
+  useEffect(() => {
+    return () => {
+      if (selectedImage?.previewUrl) {
+        URL.revokeObjectURL(selectedImage.previewUrl);
+      }
     };
-// Beregn skalering første gang og når vinduet ændrer størrelse
-calculateMagazineScale();
-window.addEventListener('resize', calculateMagazineScale);
+  }, [selectedImage]);
 
-return () => {
-  window.removeEventListener('resize', calculateMagazineScale);
-};
-  }, []);
+  // Når brugeren vælger en fil
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-// Når brugeren vælger et nyt magasin, vis første side
-useEffect(() => {
-  setCurrentPageIndex(0);
-}, [selectedMagazine]);
+    // Kun billedfiler er tilladt
+    if (!file.type.startsWith("image/")) {
+      alert("Kun billedfiler er tilladt (.jpg, .jpeg, .png, .gif, .webp)");
+      return;
+    }
 
-// Ryd op i billede-linket når komponenten fjernes
-useEffect(() => {
-  return () => {
-    if (selectedImage?.previewUrl) {
-      URL.revokeObjectURL(selectedImage.previewUrl);
+    const objectUrl = URL.createObjectURL(file);
+    setSelectedImage({
+      file: file,
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      previewUrl: objectUrl
+    });
+
+    // Fortæl skærmlæsere at billede blev uploadet
+    const announcement = document.getElementById('a11y-announcement');
+    if (announcement) {
+      announcement.textContent = `Billede ${file.name} er blevet uploadet. Du kan nu se det i magasinet.`;
     }
   };
-}, [selectedImage]);
 
- // Når brugeren vælger en fil
-const handleFileChange = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  // Åbn filvælgeren, som om brugeren selv trykkede
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
 
-  // Kun billedfiler er tilladt
-  if (!file.type.startsWith("image/")) {
-    alert("Kun billedfiler er tilladt (.jpg, .jpeg, .png, .gif, .webp)");
-    return;
-  }
+  // Brugeren vil gemme annoncen i magasinet
+  const downloadMagazine = () => {
+    // I en rigtig app ville dette gemme som en PDF
+    alert("Din annonce er nu gemt i magasinet. I en rigtig app ville dette downloade en PDF af magasinet med din annonce.");
+  };
 
-  const objectUrl = URL.createObjectURL(file);
-  setSelectedImage({
-    file: file,
-    name: file.name,
-    type: file.type,
-    size: file.size,
-    previewUrl: objectUrl
-  });
+  // Skift mellem sider i magasinet
+  const changePageNumber = (direction) => {
+    if (direction === "next" && currentPage < 98) {
+      setCurrentPage(currentPage + 2);
 
-  // Fortæl skærmlæsere at billede blev uploadet
-  const announcement = document.getElementById('a11y-announcement');
-  if (announcement) {
-    announcement.textContent = `Billede ${file.name} er blevet uploadet. Du kan nu se det i magasinet.`;
-  }
-};
+      // Gå videre til næste sideindhold
+      const nextIndex = (currentPageIndex + 1) % magazineTemplates[selectedMagazine].pageImages.length;
+      setCurrentPageIndex(nextIndex);
+    } else if (direction === "prev" && currentPage > 4) {
+      setCurrentPage(currentPage - 2);
 
-// Åbn filvælgeren, som om brugeren selv trykkede
-const triggerFileInput = () => {
-  fileInputRef.current.click();
-};
+      // Gå tilbage til forrige sideindhold
+      const prevIndex = (currentPageIndex - 1 + magazineTemplates[selectedMagazine].pageImages.length) % magazineTemplates[selectedMagazine].pageImages.length;
+      setCurrentPageIndex(prevIndex);
+    }
+  };
 
-// Brugeren vil gemme annoncen i magasinet
-const downloadMagazine = () => {
-  // I en rigtig app ville dette gemme som en PDF
-  alert("Din annonce er nu gemt i magasinet. I en rigtig app ville dette downloade en PDF af magasinet med din annonce.");
-};
+  // Skift mellem at tilpasse billedet som 'cover' eller 'contain'
+  const toggleImageFitMode = () => {
+    setImageFitMode(imageFitMode === "cover" ? "contain" : "cover");
+  };
 
-// Skift mellem sider i magasinet
-const changePageNumber = (direction) => {
-  if (direction === "next" && currentPage < 98) {
-    setCurrentPage(currentPage + 2);
-
-    // Gå videre til næste sideindhold
-    const nextIndex = (currentPageIndex + 1) % magazineTemplates[selectedMagazine].pageImages.length;
-    setCurrentPageIndex(nextIndex);
-  } else if (direction === "prev" && currentPage > 4) {
-    setCurrentPage(currentPage - 2);
-
-    // Gå tilbage til forrige sideindhold
-    const prevIndex = (currentPageIndex - 1 + magazineTemplates[selectedMagazine].pageImages.length) % magazineTemplates[selectedMagazine].pageImages.length;
-    setCurrentPageIndex(prevIndex);
-  }
-};
-
-// Skift mellem at tilpasse billedet som 'cover' eller 'contain'
-const toggleImageFitMode = () => {
-  setImageFitMode(imageFitMode === "cover" ? "contain" : "cover");
-};
-
-// Hvis skærmen er for lille (mobil), vis en advarsel
-if (isMobileView) {
-  return (
-    <div className="fixed inset-0 z-50 bg-white flex items-center justify-center text-center p-6">
-      <div>
-        <h1 className="text-2xl font-bold mb-4">Denne forhåndsvisning virker kun på større skærme</h1>
-        <p className="text-md text-gray-600">Brug venligst en tablet eller desktop for at anvende annonceværktøjet.</p>
+  // Hvis skærmen er for lille (mobil), vis en advarsel
+  if (isMobileView) {
+    return (
+      <div className="fixed inset-0 z-50 bg-white flex items-center justify-center text-center p-6">
+        <div>
+          <h1 className="text-2xl font-bold mb-4">Denne forhåndsvisning virker kun på større skærme</h1>
+          <p className="text-md text-gray-600">Brug venligst en tablet eller desktop for at anvende annonceværktøjet.</p>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
   return (
     <div style={{ 
@@ -498,7 +428,7 @@ if (isMobileView) {
           </div>
         </div>
 
-        {/* Magazine Selection */}
+        {/* Magazine knapper */}
         <div className="mb-4" role="radiogroup" aria-labelledby="magazine-selection-label">
           <h2 className="text-lg font-bold mb-2" id="magazine-selection-label">Vælg magasin</h2>
           <div className="flex space-x-4">
@@ -534,45 +464,25 @@ if (isMobileView) {
         {/* Magazine Preview Container */}
         <div className="mb-4">
           <h2 className="sr-only">Magasin forhåndsvisning</h2>
-          <div 
-            className="magazine-container-wrapper" 
-            style={{ 
-              width: "100%",
-              overflow: "hidden",
-              display: "flex",
-              justifyContent: "center"
-            }}
-          >
-            {/* FIXED MAGAZINE CONTAINER */}
-            <div 
-              className="magazine-container flex justify-center" 
-              ref={magazineContainerRef}
-              style={{ 
-                width: "100%",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                position: "relative",
-                transformOrigin: "center top"
-              }}
-            >
-              <MagazineSpread 
-                selectedMagazine={selectedMagazine}
-                currentPage={currentPage}
-                currentPageIndex={currentPageIndex}
-                selectedImage={selectedImage}
-                imageFitMode={imageFitMode}
-                fileInputRef={fileInputRef}
-                triggerFileInput={triggerFileInput}
-                handleFileChange={handleFileChange}
-                toggleImageFitMode={toggleImageFitMode}
-                changePageNumber={changePageNumber}
-              />
-            </div>
+          <div className="w-full flex justify-center">
+            <MagazineSpread 
+              selectedMagazine={selectedMagazine}
+              currentPage={currentPage}
+              currentPageIndex={currentPageIndex}
+              selectedImage={selectedImage}
+              imageFitMode={imageFitMode}
+              fileInputRef={fileInputRef}
+              triggerFileInput={triggerFileInput}
+              handleFileChange={handleFileChange}
+              toggleImageFitMode={toggleImageFitMode}
+              changePageNumber={changePageNumber}
+            />
           </div>
         </div>
                 
         <p className="text-xs" role="alert">Vær opmærksom på, at denne previewer kun fungerer på tablets & PC - <strong>IKKE</strong> på mobil.</p>
         
-        {/* Action buttons */}
+        {/* Action knapper */}
         <div className="flex justify-end mt-4">
           <button
             className="px-6 py-3 rounded-2xl transition-colors text-lg font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
