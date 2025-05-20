@@ -52,6 +52,21 @@ const magazineTemplates = {
         image: "/images/magasin-indhold/organdonationsforeningen-ad-ud-og-se.jpg",
         caption: "Organdonationsforeningen annonce for organdonation",
         headline: "Organdonation"
+      },
+      {
+        image: "/images/magasin-indhold/blaa-kors-ad-ud-og-se.jpg",
+        caption: "Blå Kors annonce mod alkoholisme",
+        headline: "Blå Kors"
+      },
+      {
+        image: "/images/magasin-indhold/tandex-ad-ud-og-se.jpg",
+        caption: "Tandex annonce for mellemrumsbørster",
+        headline: "Tandex"
+      },
+      {
+        image: "/images/magasin-indhold/wwf-ad-ud-og-se.png",
+        caption: "WWF annonce for miljøproblemer",
+        headline: "WWF"
       }
     ]
   },
@@ -74,6 +89,21 @@ const magazineTemplates = {
         image: "/images/magasin-indhold/fernet-branca-ad-samvirke.jpg",
         caption: "Fernet Branca annonce for 'Life is Bitter'-kampagnen",
         headline: "Fernet Branca"
+      },
+      {
+        image: "/images/magasin-indhold/ærø-whiskey-ad-samvirke.jpg",
+        caption: "Ærø Whiskey annonce for eget distilleri",
+        headline: "Ærø Whiskey"
+      },
+      {
+        image: "/images/magasin-indhold/gigtforeningen-ad-samvirke.jpg",
+        caption: "Gigtforeningens annonce for deres ydelser",
+        headline: "Gigtforeningen"
+      },
+      {
+        image: "/images/magasin-indhold/noah-ad-samvirke.png",
+        caption: "Miljøorganisationen NOAH",
+        headline: "NOAH"
       }
     ]
   }
@@ -130,11 +160,7 @@ const MagazineSpread = ({
       
       {/* Magazine Content - Two Page Spread */}
       <div 
-        className="flex flex-row w-full flex-grow"
-        style={{ 
-          backgroundColor: template.secondaryColor
-        }}
-      >
+        className="flex flex-row w-full flex-grow">
         {/* Venstre side - Content */}
         <div className="w-1/2 border-r border-gray-200 p-6" style={{ fontFamily: template.fontFamily }}>
           <div className="h-full flex flex-col">
@@ -239,11 +265,6 @@ const MagazineSpread = ({
                 aria-label="Upload annoncebillede"
                 id="ad-image-upload"
               />
-            </div>
-            
-            {/* Sidenummer */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-              <div className="text-center text-xs text-gray-400">SIDE {currentPage + 1}</div>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="#Home">
+        <Link href="https://piccolomedia.dk/">
           <Image
             src="/images/PMG-logo.svg"
             alt="PMG logo, as svg"
