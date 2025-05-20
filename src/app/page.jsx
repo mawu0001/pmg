@@ -138,12 +138,6 @@ const MagazineSpread = ({
         {/* Venstre side - Content */}
         <div className="w-1/2 border-r border-gray-200 p-6" style={{ fontFamily: template.fontFamily }}>
           <div className="h-full flex flex-col">
-            <h1 
-              className="text-2xl font-bold mb-2" 
-              style={{ color: template.primaryColor, fontFamily: template.headerFont }}
-            >
-              {currentPageContent.headline}
-            </h1>
             
             {/* billede for venstre side */}
             <div className="flex-1 relative w-full">
