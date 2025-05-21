@@ -115,7 +115,7 @@ export default function ContactForm() {
                       name="format"
                       value={formData.format}
                       onChange={handleChange}
-                      className="w-full p-3 rounded bg-black border border-gray-600 text-white appearance-none pr-10"
+                      className="w-full p-3 rounded bg-black border border-gray-600 text-white appearance-none pr-10 cursor-pointer"
                     >
                       <option value="" disabled>Vælg format</option>
                       <option value="quarter">Kvart side</option>
@@ -134,7 +134,7 @@ export default function ContactForm() {
             <div className="flex justify-center">
               <button
                 onClick={handleSubmit}
-                className="px-8 py-3 bg-black hover:bg-red-500 text-white border border-red-500 rounded-full font-medium hover:bg-opacity-90 transition-colors"
+                className="px-8 py-3 bg-black hover:bg-red-500 text-white border border-red-500 rounded-full font-medium hover:bg-opacity-90 transition-colors cursor-pointer"
               >
                 Indsend
               </button>

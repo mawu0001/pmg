@@ -449,7 +449,7 @@ export default function MagazineAdUploader() {
           <h2 className="text-lg font-bold mb-2" id="magazine-selection-label">Vælg magasin</h2>
           <div className="flex space-x-4">
             <button
-              className="px-4 py-2 rounded-full transition-colors" 
+              className="px-4 py-2 rounded-full transition-colors cursor-pointer" 
               style={{
                 backgroundColor: selectedMagazine === "udogse" ? colors.udogse_color : colors.white_color,
                 color: selectedMagazine === "udogse" ? colors.white_color : colors.black_color,
@@ -462,7 +462,7 @@ export default function MagazineAdUploader() {
               Ud & Se
             </button>
             <button
-              className="px-4 py-2 rounded-full transition-colors"
+              className="px-4 py-2 rounded-full transition-colors cursor-pointer"
               style={{
                 backgroundColor: selectedMagazine === "samvirke" ? colors.samvirke_color : colors.white_color,
                 color: selectedMagazine === "samvirke" ? colors.white_color : "#FF0000",
@@ -501,7 +501,7 @@ export default function MagazineAdUploader() {
         {/* Action knapper */}
         <div className="flex justify-end mt-4">
           <button
-            className="px-6 py-3 rounded-2xl transition-colors text-lg font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 rounded-full transition-colors text-m font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               backgroundColor: isButtonHovered
                 ? (selectedMagazine === "samvirke" ? colors.black_color : colors.red_color)
