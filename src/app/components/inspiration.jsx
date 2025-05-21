@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 // originalfarverne fra PMG
@@ -11,8 +11,104 @@ const colors = {
   samvirke_color: "#FF0000" // Samvirke rød
 };
 
+// modal component til preview af annoncer
+function ImageModal({ isOpen, onClose, currentAd, allAds, onPrevious, onNext }) {
+  useEffect(() => {
+    // Keyboard kan bruges i modalet
+    const handleKeyDown = (e) => {
+      if (!isOpen) return;
+      
+      switch (e.key) {
+        case "Escape":
+          onClose();
+          break;
+        case "ArrowLeft":
+          onPrevious();
+          break;
+        case "ArrowRight":
+          onNext();
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    
+    // Fjern body scroll ved åbent modal
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    }
+    
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen, onClose, onPrevious, onNext]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+      {/* X knap til modal */}
+      <button 
+        onClick={onClose}
+        className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 focus:outline-none"
+        aria-label="Luk forhåndsvisning"
+      >
+        ✕
+      </button>
+      
+      {/* Navigationspile */}
+      <button 
+        onClick={onPrevious}
+        className="absolute left-4 text-white text-5xl opacity-70 hover:opacity-100 focus:outline-none transition-opacity"
+        aria-label="Forrige annonce"
+      >
+        ‹
+      </button>
+      
+      <button 
+        onClick={onNext}
+        className="absolute right-4 text-white text-5xl opacity-70 hover:opacity-100 focus:outline-none transition-opacity"
+        aria-label="Næste annonce"
+      >
+        ›
+      </button>
+      
+      {/* Modal indhold */}
+      <div className="relative w-full max-w-4xl h-full max-h-[80vh] flex flex-col">
+        {/* Image container */}
+        <div className="relative flex-grow bg-white rounded-lg overflow-hidden">
+          <div className="relative w-full h-full">
+            <Image
+              src={currentAd.image}
+              alt={`Annonceinspiration: ${currentAd.title}`}
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+        
+        {/* Caption */}
+        <div className="bg-white bg-opacity-90 p-4 rounded-b-lg">
+          <h3 className="text-xl font-bold text-black">{currentAd.title}</h3>
+          <p className="text-sm text-gray-700">{currentAd.description}</p>
+          <p className="text-xs text-gray-500 mt-1">
+            Magasin: {currentAd.magazine === "both" 
+              ? "Begge magasiner" 
+              : (currentAd.magazine === "udogse" ? "Ud & Se" : "Samvirke")}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AdInspirationGrid() {
   const [selectedMagazine, setSelectedMagazine] = useState("udogse");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentAdIndex, setCurrentAdIndex] = useState(0);
 
   // Inspirations annoncer
   const inspirationAds = [
@@ -86,6 +182,28 @@ export default function AdInspirationGrid() {
     ad.magazine === "both" || ad.magazine === selectedMagazine
   );
 
+  // Modal handlers
+  const openModal = (index) => {
+    setCurrentAdIndex(index);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const goToPrevious = () => {
+    setCurrentAdIndex((prevIndex) => 
+      prevIndex === 0 ? filteredAds.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentAdIndex((prevIndex) => 
+      prevIndex === filteredAds.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 text-black" id="inspiration">
       <div className="flex justify-between items-center mb-8">
@@ -132,11 +250,12 @@ export default function AdInspirationGrid() {
 
       {/* Inspirations-Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredAds.map((ad) => (
+        {filteredAds.map((ad, index) => (
           <div 
             key={ad.id} 
-            className="relative overflow-hidden rounded-lg shadow-md group h-64"
+            className="relative overflow-hidden rounded-lg shadow-md group h-64 cursor-pointer"
             aria-labelledby={`ad-title-${ad.id}`}
+            onClick={() => openModal(index)}
           >
             <div className="relative w-full h-full">
               <Image
@@ -194,6 +313,18 @@ export default function AdInspirationGrid() {
           Start din annonce nu
         </button>
       </div>
+
+      {/* Overlay Modal */}
+      {modalOpen && filteredAds.length > 0 && (
+        <ImageModal 
+          isOpen={modalOpen}
+          onClose={closeModal}
+          currentAd={filteredAds[currentAdIndex]}
+          allAds={filteredAds}
+          onPrevious={goToPrevious}
+          onNext={goToNext}
+        />
+      )}
     </div>
   );
 }
