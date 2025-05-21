@@ -109,7 +109,7 @@ const magazineTemplates = {
   }
 };
 
-// MagazineSpread Component
+// MagazineSpread Component - UPDATED TO FILL IMAGE ON LEFT SIDE
 const MagazineSpread = ({ 
   selectedMagazine, 
   currentPage, 
@@ -160,29 +160,30 @@ const MagazineSpread = ({
       
       {/* Magazine Content - Two Page Spread */}
       <div 
-        className="flex flex-row w-full flex-grow">
-        {/* Venstre side - Content */}
-        <div className="w-1/2 border-r border-gray-200 p-6" style={{ fontFamily: template.fontFamily }}>
-          <div className="h-full flex flex-col">
-            
-            {/* billede for venstre side */}
-            <div className="flex-1 relative w-full">
+        className="flex flex-row w-full flex-grow shadow-xl">
+        {/* Venstre side - Content - REMOVED PADDING */}
+        <div className="w-1/2 border-r border-gray-200 relative" style={{ fontFamily: template.fontFamily }}>
+          {/* billede for venstre side - REMOVED PADDING TO FILL ENTIRE SPACE */}
+          <div className="absolute inset-0">
+            <div className="relative w-full h-full">
               <Image 
                 src={currentPageContent.image} 
                 alt={currentPageContent.caption}
                 fill
                 className="object-cover"
-                style={{ width: "100%", height: "100%" }}
                 priority
                 aria-describedby={`page-${currentPage}-description`}
               />
               <span id={`page-${currentPage}-description`} className="sr-only">
                 {currentPageContent.caption}
               </span>
-            </div>
-            
-            <div className="flex items-end justify-center mt-4">
-              <div className="text-center text-xs text-gray-400">SIDE {currentPage}</div>
+              
+              {/* Side number overlay */}
+              <div className="absolute bottom-0 left-0 right-0 flex justify-center">
+                <div className="text-center text-xs text-gray-400 bg-white bg-opacity-70 px-2 py-1 rounded">
+                  SIDE {currentPage}
+                </div>
+              </div>
             </div>
           </div>
         </div>

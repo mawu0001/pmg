@@ -21,14 +21,14 @@ const Navbar = () => {
         <ul className="flex space-x-6 text-sm font-medium text-gray-700">
           <li><Link href="/om-pmg" className="hover:text-redColor">OM PMG</Link></li>
           <li className="relative group">
-            <Link href="#" className="hover:text-redColor">MEDIEHUSET</Link>
+            <Link href="#" className="hover:text-redColor">ANNONCØR</Link>
             <ul className="absolute left-0 mt-2 w-40 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               <li><Link href="/ud-se" className="block px-4 py-2 hover:bg-gray-100">UD&SE</Link></li>
               <li><Link href="/samvirke" className="block px-4 py-2 hover:bg-gray-100">SAMVIRKE</Link></li>
               <li><Link href="/" className="block px-4 py-2 hover:bg-gray-100">ANNONCE PREVIEWER</Link></li>
             </ul>
           </li>
-          <li><Link href="/annoncor" className="hover:text-redColor">ANNONCØR</Link></li>
+          <li><Link href="/annoncor" className="hover:text-redColor">MEDIEHUSET</Link></li>
           <li className="relative group">
             <Link href="#" className="hover:text-redColor">PICCOLO PRISEN</Link>
             <ul className="absolute left-0 mt-2 w-40 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
