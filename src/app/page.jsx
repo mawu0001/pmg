@@ -13,7 +13,7 @@ const colors = {
 
 // filformater til upload
 const supportedFormats = [
-  ".jpg", ".jpeg", ".png", ".gif", ".webp"
+  ".jpg", ".jpeg", ".png", ".webp"
 ];
 
 // Annonce guidelines info
@@ -42,16 +42,16 @@ const magazineTemplates = {
     secondaryColor: "#F0F4F8",
     headerImage: "/images/magasin-indhold/udogse_header.jpg", 
     pageImages: [
-      // hvert et array element repræsenterer content for en side, og de stiger med 2
-      {
-        image: "/images/magasin-indhold/7-eleven-ad-ud-og-se.jpg",
-        caption: "7-Eleven annonce for croissanter",
-        headline: "7-Eleven Tilbud"
-      },
+      // hvert et array element repræsenterer content for en side, og de stiger med 2 (i og med de vises på den side med hele tal)
       {
         image: "/images/magasin-indhold/organdonationsforeningen-ad-ud-og-se.jpg",
         caption: "Organdonationsforeningen annonce for organdonation",
         headline: "Organdonation"
+      },
+      {
+        image: "/images/magasin-indhold/7-eleven-ad-ud-og-se.jpg",
+        caption: "7-Eleven annonce for croissanter",
+        headline: "7-Eleven Tilbud"
       },
       {
         image: "/images/magasin-indhold/blaa-kors-ad-ud-og-se.jpg",
@@ -577,6 +577,8 @@ export default function MagazineAdUploader() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="border-1 border-solid">
       </div>
     </div>
   );
