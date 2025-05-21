@@ -449,7 +449,7 @@ export default function MagazineAdUploader() {
           <h2 className="text-lg font-bold mb-2" id="magazine-selection-label">Vælg magasin</h2>
           <div className="flex space-x-4">
             <button
-              className="px-4 py-2 rounded-2xl transition-colors"
+              className="px-4 py-2 rounded-full transition-colors" 
               style={{
                 backgroundColor: selectedMagazine === "udogse" ? colors.udogse_color : colors.white_color,
                 color: selectedMagazine === "udogse" ? colors.white_color : colors.black_color,
@@ -462,7 +462,7 @@ export default function MagazineAdUploader() {
               Ud & Se
             </button>
             <button
-              className="px-4 py-2 rounded-2xl transition-colors"
+              className="px-4 py-2 rounded-full transition-colors"
               style={{
                 backgroundColor: selectedMagazine === "samvirke" ? colors.samvirke_color : colors.white_color,
                 color: selectedMagazine === "samvirke" ? colors.white_color : "#FF0000",
@@ -577,8 +577,6 @@ export default function MagazineAdUploader() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="border-1 border-solid">
       </div>
     </div>
   );

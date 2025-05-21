@@ -102,7 +102,7 @@ export default function AdInspirationGrid() {
         <h2 className="text-lg font-bold mb-2" id="magazine-selection-label">Vælg magasin</h2>
         <div className="flex space-x-4">
           <button
-            className="px-4 py-2 rounded-2xl transition-colors"
+            className="px-4 py-2 rounded-full transition-colors"
             style={{
               backgroundColor: selectedMagazine === "udogse" ? colors.udogse_color : colors.white_color,
               color: selectedMagazine === "udogse" ? colors.white_color : colors.black_color,
@@ -115,7 +115,7 @@ export default function AdInspirationGrid() {
             Ud & Se
           </button>
           <button
-            className="px-4 py-2 rounded-2xl transition-colors"
+            className="px-4 py-2 rounded-full transition-colors"
             style={{
               backgroundColor: selectedMagazine === "samvirke" ? colors.samvirke_color : colors.white_color,
               color: selectedMagazine === "samvirke" ? colors.white_color : "#FF0000",
@@ -189,12 +189,8 @@ export default function AdInspirationGrid() {
       <div className="text-center mt-8">
         <p className="text-md mb-4">Bliv inspireret og skab din egen kreative annonce i dag.</p>
         <button
-          className="px-6 py-3 rounded-2xl transition-colors text-lg font-medium"
-          style={{
-            backgroundColor: selectedMagazine === "samvirke" ? colors.samvirke_color : colors.udogse_color,
-            color: colors.white_color
-          }}
-        >
+         className="px-8 py-3 bg-black hover:bg-red-500 text-white border rounded-full font-medium transition-colors"
+         >
           Start din annonce nu
         </button>
       </div>

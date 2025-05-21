@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "./components/navigation";
 import Footer from "./components/footer";
 import Inspiration from "./components/inspiration";
+import ContactForm from "./components/contactform";
 
 
 export const metadata = {
@@ -20,7 +21,12 @@ export default function RootLayout({ children }) {
       >
         <Navbar/>
         {children}
+        <div className="border-1 border-solid">
+        </div>
         <Inspiration/>
+        <div className="border-1 border-solid">
+        </div>
+<ContactForm/>
 <Footer/>
       </body>
     </html>
