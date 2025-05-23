@@ -6,9 +6,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        red_color: "#FF0000",    // red
-        black_color: "#000000",  // black
-        white_color: "#FFFFFF",  // white
+        red_color: "#FF0000",    // pmg red
+        black_color: "#000000",  // pmg black
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
@@ -28,6 +27,7 @@ export default {
         step_text_regular: "clamp(0.875rem, 0.8315rem + 0.2174vw, 1rem)",
         step_text_tiny: "clamp(0.75rem, 0.7065rem + 0.2174vw, 0.875rem)",
       },
+      /* vi burde have gået mere i dybden med at have default, primary, secondary og accents, f.eks. på knapper og anden styling af elementer */
     },
   },
   plugins: [],
