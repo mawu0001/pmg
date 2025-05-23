@@ -437,7 +437,7 @@ export default function MagazineAdUploader() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8 magazine-header">
           <div>
-            <h1 className="text-3xl font-black">ANNONCEVÆRKTØJ</h1>
+            <h1 className="text-3xl font-black">SE DIN ANNONCE I MAGASINET</h1>
             <p className="text-sm font-medium">
               Placér din annonce direkte i <strong>Ud & Se</strong> eller <strong>Samvirke</strong> magasinet for Piccolo Media Group.
             </p>

@@ -9,7 +9,7 @@ function Newsletter() {
 
   return (
     <div className="max-w-6xl mx-auto bg-white px-4 py-8">
-      <div className="grid md:grid-cols-2 gap-8 items-stretch">
+      <div id="kontakt" className="grid md:grid-cols-2 gap-8 items-stretch">
         {/* Venstre box med kontaktformular */}
         <div className="bg-white">
           <div className="p-6 md:p-8">
@@ -160,6 +160,12 @@ function Newsletter() {
             <p className="text-sm text-black">
               Vi hjælper dig med at placere dine annoncer i magasiner som Ud & Se og Samvirke.
               Kontakt os for at høre mere om mulighederne.
+<br />
+<br />
+Du kan upload'e dine designs og filer, tjekke op på om det passer ind i magasinernes generelle udtryk, og kontakte os med spørgsmål. 
+<br />
+<br />
+Vi kender magasinerne, og vi vil gerne kende dine ønsker. 
             </p>
             <div className="w-full h-40 bg-gray-200 rounded-lg overflow-hidden relative">
   <Image
