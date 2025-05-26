@@ -12,7 +12,6 @@ export default {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
         heading: ['"Museo"', "sans-serif"],
-        darker: ['"Darker Grotesque"', 'sans-serif'],
         paragraphs: ['"Roboto Condensed"', 'sans-serif']
       },
       fontSize: {
