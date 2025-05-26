@@ -124,6 +124,7 @@ function Newsletter() {
                     </label>
                     <select
                       name="format"
+                      id="format" 
                       defaultValue={state?.format || ""}
                       className="w-full p-3 rounded bg-black underline border-white text-white appearance-none pr-10 cursor-pointer"
                     >

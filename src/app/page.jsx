@@ -1,6 +1,7 @@
 "use client"
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from 'next/link';
 
 // Farver fra PMG
 const colors = {
@@ -553,25 +554,25 @@ export default function MagazineAdUploader() {
             </ul>
             
             <div className="mt-4">
-              <h3 className="font-bold text-sm mb-1" id="specs-links-heading">Links til specifikationer</h3>
+              <h3 className="font-bold text-lg mb-1" id="specs-links-heading">Links til specifikationer</h3>
               <ul aria-labelledby="specs-links-heading">
                 <li>
-                  <a 
-                    className="text-sm hover:underline block" 
+                  <Link
+                    className="text-m hover:underline block" 
                     href="https://piccolomedia.dk/wp-content/uploads/SAMVIRKE_Nyeformater.pdf"
                     aria-label="Download prislister og formatmål for Samvirke (PDF)"
                   >
                     Prislister og formatmål for <strong>Samvirke</strong>
-                  </a>
+                    </Link>
                 </li>
                 <li>
-                  <a 
-                    className="text-sm hover:underline block" 
+                  <Link
+                    className="text-m hover:underline block" 
                     href="https://piccolomedia.dk/wp-content/uploads/udogse-priser-og-betingelser_DL.pdf"
                     aria-label="Download prislister og formatmål for Ud & Se (PDF)"
                   >
                     Prislister og formatmål for <strong>Ud & Se</strong>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
