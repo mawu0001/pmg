@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        red_color: "#FF0000",    // pmg red
-        black_color: "#000000",  // pmg black
+        red_color: "#FF0000",    // pmg rød
+        black_color: "#000000",  // pmg sort
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
