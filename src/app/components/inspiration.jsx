@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 // originalfarverne fra PMG
 const colors = {
@@ -307,11 +308,11 @@ export default function AdInspirationGrid() {
       {/* CTA */}
       <div className="text-center mt-8">
         <p className="text-md mb-4">Bliv inspireret og skab din egen kreative annonce i dag.</p>
-        <button
+        <Link href="#home"
          className="px-8 py-3 bg-black hover:bg-red-500 text-white border rounded-full font-medium transition-colors cursor-pointer"
          >
           Start din annonce nu
-        </button>
+        </Link>
       </div>
 
       {/* Overlay Modal */}

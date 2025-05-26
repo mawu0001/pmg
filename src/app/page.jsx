@@ -121,17 +121,19 @@ const MagazineSpread = ({
   triggerFileInput, 
   handleFileChange, 
   toggleImageFitMode, 
-  changePageNumber 
+  changePageNumber,
+  zoomLevel
 }) => {
   const template = magazineTemplates[selectedMagazine];
   const currentPageContent = template.pageImages[currentPageIndex];
   
   return (
     <div 
-      className="flex flex-col bg-white text-black shadow-xl mx-auto w-full"
+      className="flex flex-col bg-white text-black shadow-xl mx-auto w-full transition-all duration-200"
       style={{ 
         aspectRatio: "1.4/1", // Approximates the 420mm x 300mm original ratio
-        maxWidth: "1200px"
+        maxWidth: "1200px",
+        transform: `scale(${zoomLevel})`
       }}
       role="region"
       aria-label={`${template.title} magazine preview, pages ${currentPage}-${currentPage + 1}`}
@@ -190,7 +192,7 @@ const MagazineSpread = ({
         </div>
         
         {/* Højre side - annonce upload */}
-        <div className="w-1/2" style={{ fontFamily: template.fontFamily }}>
+        <div className="w-1/2" id="annonce-værktøj" style={{ fontFamily: template.fontFamily }}>
           <div className="h-full flex flex-col relative">
             {/* Annoncen fylder hele højre plads */}
             <div className="absolute inset-0">
@@ -321,6 +323,7 @@ export default function MagazineAdUploader() {
   const [imageFitMode, setImageFitMode] = useState("cover"); // Billeder skal 'cover'
   const [isMobileView, setIsMobileView] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0); // tænk over hvad der skal vises af content
+  const [zoomLevel, setZoomLevel] = useState(1); // New zoom state
   
   // Refs
   const fileInputRef = useRef(null);
@@ -407,6 +410,11 @@ export default function MagazineAdUploader() {
     setImageFitMode(imageFitMode === "cover" ? "contain" : "cover");
   };
 
+  // Handle zoom level change
+  const handleZoomChange = (e) => {
+    setZoomLevel(parseFloat(e.target.value));
+  };
+
   // Hvis skærmen er for lille (mobil), vis en advarsel
   if (isMobileView) {
     return (
@@ -427,8 +435,31 @@ export default function MagazineAdUploader() {
     }}
     role="application"
     aria-label="Magasin annonceværktøj"
-    >    
-      {/* Accessibility announcement region */}
+    >
+      {/* styling af slider */}
+      <style jsx>{`
+        input[type="range"]::-webkit-slider-thumb {
+          appearance: none;
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          background: #FF0000;
+          cursor: pointer;
+          border: 2px solid #ffffff;
+          box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          background: #FF0000;
+          cursor: pointer;
+          border: 2px solid #ffffff;
+          box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+      `}</style>    
+      {/* Accessibility announcement område */}
       <div 
         aria-live="polite" 
         id="a11y-announcement" 
@@ -478,10 +509,34 @@ export default function MagazineAdUploader() {
           </div>
         </div>
 
-        {/* Magazine Preview Container */}
+        {/* Zoom Slider */}
         <div className="mb-4">
+          <h2 className="text-lg font-bold mb-2" id="zoom-control-label">Zoom</h2>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm font-medium">50%</span>
+            <input
+              type="range"
+              min="0.5"
+              max="1.5"
+              step="0.1"
+              value={zoomLevel}
+              onChange={handleZoomChange}
+              className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #FF0000 0%, #FF0000 ${((zoomLevel - 0.5) / (1.5 - 0.5)) * 100}%, #e5e7eb ${((zoomLevel - 0.5) / (1.5 - 0.5)) * 100}%, #e5e7eb 100%)`
+              }}
+              aria-labelledby="zoom-control-label"
+              aria-label={`Zoom niveau: ${Math.round(zoomLevel * 100)}%`}
+            />
+            <span className="text-sm font-medium">150%</span>
+            <span className="text-sm font-medium ml-4">Nuværende: {Math.round(zoomLevel * 100)}%</span>
+          </div>
+        </div>
+
+        {/* Magazine Preview Container med overflow handling til zoom */}
+        <div className="mb-4 overflow-auto">
           <h2 className="sr-only">Magasin forhåndsvisning</h2>
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center" style={{ minHeight: `${600 * zoomLevel}px` }}>
             <MagazineSpread 
               selectedMagazine={selectedMagazine}
               currentPage={currentPage}
@@ -493,6 +548,7 @@ export default function MagazineAdUploader() {
               handleFileChange={handleFileChange}
               toggleImageFitMode={toggleImageFitMode}
               changePageNumber={changePageNumber}
+              zoomLevel={zoomLevel}
             />
           </div>
         </div>
@@ -521,7 +577,7 @@ export default function MagazineAdUploader() {
         </div>
 
         {/* Information & specifikationer */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 magazine-footer">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 magazine-footer text-white bg-black rounded-lg">
           <div className="p-4 rounded-md">
             <h2 className="text-lg font-bold mb-2" id="ad-formats-heading">Annonceformater</h2>
             <p className="text-sm mb-4">Annoncen skal uploades som et billede i et af følgende formater:</p>
