@@ -180,7 +180,7 @@ const MagazineSpread = ({
               
               {/* Side number overlay */}
               <div className="absolute bottom-0 left-0 right-0 flex justify-center">
-                <div className="text-center text-xs text-gray-400 bg-white bg-opacity-70 px-2 py-1 rounded">
+                <div className="text-center text-xs text-black bg-white bg-opacity-70 px-2 py-1 rounded">
                   SIDE {currentPage}
                 </div>
               </div>
@@ -234,7 +234,7 @@ const MagazineSpread = ({
                   }}
                 >
                   <svg 
-                    className="h-20 w-20 text-gray-400" 
+                    className="h-20 w-20 text-black" 
                     stroke="currentColor" 
                     fill="none" 
                     viewBox="0 0 48 48" 
@@ -247,11 +247,11 @@ const MagazineSpread = ({
                       strokeLinejoin="round" 
                     />
                   </svg>
-                  <h3 className="mt-4 text-xl font-semibold text-gray-700">Klik for at uploade din annonce</h3>
-                  <p className="mt-2 text-sm text-gray-500">
+                  <h3 className="mt-4 text-xl font-semibold text-black">Klik for at uploade din annonce</h3>
+                  <p className="mt-2 text-sm text-black">
                     Understøttede formater: {supportedFormats.join(", ")}
                   </p>
-                  <p className="mt-2 text-sm text-gray-500">
+                  <p className="mt-2 text-sm text-black">
                     Annoncestørrelse: {adSizeGuide[selectedMagazine][0].dimensions} (helside)
                   </p>
                 </div>
@@ -412,7 +412,7 @@ export default function MagazineAdUploader() {
       <div className="fixed inset-0 z-50 bg-white flex items-center justify-center text-center p-6">
         <div>
           <h1 className="text-2xl font-bold mb-4">Denne forhåndsvisning virker kun på større skærme</h1>
-          <p className="text-md text-gray-600">Brug venligst en tablet eller desktop for at anvende annonceværktøjet.</p>
+          <p className="text-md text-black">Brug venligst en tablet eller desktop for at anvende annonceværktøjet.</p>
         </div>
       </div>
     );

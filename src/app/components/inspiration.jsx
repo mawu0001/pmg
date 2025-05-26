@@ -53,7 +53,7 @@ function ImageModal({ isOpen, onClose, currentAd, allAds, onPrevious, onNext }) 
       {/* X knap til modal */}
       <button 
         onClick={onClose}
-        className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 focus:outline-none"
+        className="absolute top-4 right-4 text-white text-2xl hover:text-black focus:outline-none"
         aria-label="Luk forhåndsvisning"
       >
         ✕
@@ -93,8 +93,8 @@ function ImageModal({ isOpen, onClose, currentAd, allAds, onPrevious, onNext }) 
         {/* Caption */}
         <div className="bg-white bg-opacity-90 p-4 rounded-b-lg">
           <h3 className="text-xl font-bold text-black">{currentAd.title}</h3>
-          <p className="text-sm text-gray-700">{currentAd.description}</p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-sm text-black">{currentAd.description}</p>
+          <p className="text-xs text-black mt-1">
             Magasin: {currentAd.magazine === "both" 
               ? "Begge magasiner" 
               : (currentAd.magazine === "udogse" ? "Ud & Se" : "Samvirke")}

@@ -18,7 +18,7 @@ const Navbar = () => {
             priority
           />
         </Link>
-        <ul className="flex space-x-6 text-sm font-medium text-gray-700">
+        <ul className="flex space-x-6 text-sm font-medium text-black">
           {/* lokale links */}
           <li><Link href="#inspiration" className="hover:text-redColor flex items-center before:content-[''] before:inline-block before:w-2 before:h-2 before:bg-red-500 before:mr-2">INSPIRATION</Link></li> 
           <li><Link href="#kontakt" className="hover:text-redColor flex items-center before:content-[''] before:inline-block before:w-2 before:h-2 before:bg-red-500 before:mr-2">KONTAKT</Link></li>
