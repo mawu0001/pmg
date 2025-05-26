@@ -4,18 +4,18 @@ import { getData, postData } from "../api/api";
 import { revalidatePath } from "next/cache";
 
 export async function actionSubmit(prev, formData) {
-  // Convert formData into a plain object with all entries
+  // formater formData til et plain object med dataen
   const data = Object.fromEntries(formData.entries());
 
   const errors = {};
   if (!data.name) {
-    errors.name = "Name is required";
+    errors.name = "Navn er obligatorisk";
   }
   if (data.name && data.name.length === 1) {
-    errors.name = "Does your name really have only one character?";
+    errors.name = "Har dit navn virkelig kun et bogstav?";
   }
   if (!data.email || !data.email.includes("@")) {
-    errors.email = "Email is required";
+    errors.email = "Email er obligatorisk, og med et @";
   }
   if (errors.name || errors.email) {
     return {
@@ -24,24 +24,12 @@ export async function actionSubmit(prev, formData) {
       ...data,
     };
   }
-
-  const signups = await getData();
-  const existingEmail = signups.find((signup) => signup.email === data.email);
-
-  if (existingEmail) {
-    return {
-      success: false,
-      errors: { email: "Email already exists" },
-      ...data,
-    };
-  }
-
   const res = await postData(data);
 
   if (res) {
     revalidatePath("/");
-    return { success: true, message: "Thanks for submitting" };
+    return { success: true, message: "Tak. Vi kontakter dig pr. email." };
   } else {
-    return { success: false, message: "Failed to submit" };
+    return { success: false, message: "Fejl. Prøv igen." };
   }
 }
