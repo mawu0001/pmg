@@ -161,12 +161,12 @@ const MagazineSpread = ({
         </div>
       </div>
       
-      {/* Magazine Content - Two Page Spread */}
+      {/* Magazine Content - to sidet spread */}
       <div 
         className="flex flex-row w-full flex-grow shadow-xl">
-        {/* Venstre side - Content - REMOVED PADDING */}
+        {/* Venstre side - Content */}
         <div className="w-1/2 border-r border-gray-200 relative" style={{ fontFamily: template.fontFamily }}>
-          {/* billede for venstre side - REMOVED PADDING TO FILL ENTIRE SPACE */}
+          {/* billede for venstre side */}
           <div className="absolute inset-0">
             <div className="relative w-full h-full">
               <Image 
@@ -181,7 +181,7 @@ const MagazineSpread = ({
                 {currentPageContent.caption}
               </span>
               
-              {/* Side number overlay */}
+              {/* Side nummer overlay */}
               <div className="absolute bottom-0 left-0 right-0 flex justify-center">
                 <div className="text-center text-xs text-black bg-white bg-opacity-70 px-2 py-1 rounded">
                   SIDE {currentPage}
