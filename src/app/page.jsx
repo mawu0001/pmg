@@ -110,7 +110,7 @@ const magazineTemplates = {
   }
 };
 
-// MagazineSpread Component - UPDATED TO FILL IMAGE ON LEFT SIDE
+// MagazineSpread Component - fyld hele din højre side ud
 const MagazineSpread = ({ 
   selectedMagazine, 
   currentPage, 
@@ -131,7 +131,7 @@ const MagazineSpread = ({
     <div 
       className="flex flex-col bg-white text-black shadow-xl mx-auto w-full transition-all duration-200"
       style={{ 
-        aspectRatio: "1.4/1", // Approximates the 420mm x 300mm original ratio
+        aspectRatio: "1.3/1", // forsøger at ramme den 420mm x 300mm originale ratio
         maxWidth: "1200px",
         transform: `scale(${zoomLevel})`
       }}
