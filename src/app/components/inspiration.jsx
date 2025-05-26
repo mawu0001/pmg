@@ -309,7 +309,7 @@ export default function AdInspirationGrid() {
       <div className="text-center mt-8">
         <p className="text-md mb-4">Bliv inspireret og skab din egen kreative annonce i dag.</p>
         <Link href="#home"
-         className="px-8 py-3 bg-black hover:bg-red-500 text-white border rounded-full font-medium transition-colors cursor-pointer"
+         className="px-6 py-3 bg-black hover:bg-red-500 text-white border rounded-full font-medium transition-colors cursor-pointer"
          >
           Start din annonce nu
         </Link>

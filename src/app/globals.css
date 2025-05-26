@@ -64,9 +64,6 @@ h2, h3 {
   font-weight: 700; 
 }
 
-a:hover {
-  color: #ff0000;
-}
 
 .fluid-title {
   font-size: clamp(2rem, 6vw + 1rem, 6rem);

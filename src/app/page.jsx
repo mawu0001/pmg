@@ -614,7 +614,7 @@ export default function MagazineAdUploader() {
               <ul aria-labelledby="specs-links-heading">
                 <li>
                   <Link
-                    className="text-m hover:underline block" 
+                    className="text-m hover:text-red-500 block" 
                     href="https://piccolomedia.dk/wp-content/uploads/SAMVIRKE_Nyeformater.pdf"
                     aria-label="Download prislister og formatmål for Samvirke (PDF)"
                   >
@@ -623,7 +623,7 @@ export default function MagazineAdUploader() {
                 </li>
                 <li>
                   <Link
-                    className="text-m hover:underline block" 
+                    className="text-m hover:text-red-500 block" 
                     href="https://piccolomedia.dk/wp-content/uploads/udogse-priser-og-betingelser_DL.pdf"
                     aria-label="Download prislister og formatmål for Ud & Se (PDF)"
                   >
