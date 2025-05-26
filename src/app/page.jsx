@@ -509,7 +509,26 @@ export default function MagazineAdUploader() {
           </div>
         </div>
 
-        {/* Zoom Slider */}
+        {/* Magazine Preview Container med overflow handling til zoom */}
+        <div className="mb-4 overflow-auto">
+          <h2 className="sr-only">Magasin forhåndsvisning</h2>
+          <div className="w-full flex justify-center" style={{ minHeight: `${600 * zoomLevel}px` }}>
+            <MagazineSpread 
+              selectedMagazine={selectedMagazine}
+              currentPage={currentPage}
+              currentPageIndex={currentPageIndex}
+              selectedImage={selectedImage}
+              imageFitMode={imageFitMode}
+              fileInputRef={fileInputRef}
+              triggerFileInput={triggerFileInput}
+              handleFileChange={handleFileChange}
+              toggleImageFitMode={toggleImageFitMode}
+              changePageNumber={changePageNumber}
+              zoomLevel={zoomLevel}
+            />
+          </div>
+        </div>
+                {/* Zoom Slider */}
         <div className="mb-4">
           <h2 className="text-lg font-bold mb-2" id="zoom-control-label">Zoom</h2>
           <div className="flex items-center space-x-4">
@@ -532,27 +551,6 @@ export default function MagazineAdUploader() {
             <span className="text-sm font-medium ml-4">Nuværende: {Math.round(zoomLevel * 100)}%</span>
           </div>
         </div>
-
-        {/* Magazine Preview Container med overflow handling til zoom */}
-        <div className="mb-4 overflow-auto">
-          <h2 className="sr-only">Magasin forhåndsvisning</h2>
-          <div className="w-full flex justify-center" style={{ minHeight: `${600 * zoomLevel}px` }}>
-            <MagazineSpread 
-              selectedMagazine={selectedMagazine}
-              currentPage={currentPage}
-              currentPageIndex={currentPageIndex}
-              selectedImage={selectedImage}
-              imageFitMode={imageFitMode}
-              fileInputRef={fileInputRef}
-              triggerFileInput={triggerFileInput}
-              handleFileChange={handleFileChange}
-              toggleImageFitMode={toggleImageFitMode}
-              changePageNumber={changePageNumber}
-              zoomLevel={zoomLevel}
-            />
-          </div>
-        </div>
-                
         <p className="text-xs" role="alert">Vær opmærksom på, at denne previewer kun fungerer på tablets & PC - <strong>IKKE</strong> på mobil.</p>
         
         {/* Action knapper */}
