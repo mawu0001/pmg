@@ -143,7 +143,7 @@ export default function AdInspirationGrid() {
     },
     {
       id: 5,
-      image: "/images/magasin-indhold/tn-ad.jpeg",
+      image: "/images/magasin-indhold/TN-ad.jpeg",
       title: "TN",
       description: "TN annonce for det økologiske landbrug",
       magazine: "samvirke"
