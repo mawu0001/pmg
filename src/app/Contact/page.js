@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { actionSubmit } from "../api/actions";
+import { actionSubmit } from "../lib/actions";
 import Image from "next/image";
 
 const initialState = {
@@ -124,7 +124,7 @@ function Newsletter() {
                     </label>
                     <select
                       name="format"
-                      id="format" 
+                      id="format"
                       defaultValue={state?.format || ""}
                       className="w-full p-3 rounded bg-black underline border-white text-white appearance-none pr-10 cursor-pointer"
                     >
@@ -159,7 +159,9 @@ function Newsletter() {
               </div>
 
               {state?.message && (
-                <p className="text-center text-sm text-green-600">{state.message}</p>
+                <p className="text-center text-sm text-green-600">
+                  {state.message}
+                </p>
               )}
             </form>
           </div>
@@ -170,12 +172,13 @@ function Newsletter() {
           <div className="bg-white shadow-xl rounded-lg p-6 space-y-4 z-10 max-w-md">
             <h2 className="text-2xl font-bold text-black">Om annoncering</h2>
             <p className="text-sm text-black">
-              Vi hjælper dig med at placere dine annoncer i magasiner som Ud & Se og
-              Samvirke. Kontakt os for at høre mere om mulighederne.
+              Vi hjælper dig med at placere dine annoncer i magasiner som Ud &
+              Se og Samvirke. Kontakt os for at høre mere om mulighederne.
               <br />
               <br />
-              Du kan upload'e dine designs og filer, tjekke op på om det passer ind i
-              magasinernes generelle udtryk, og kontakte os med spørgsmål. <br />
+              Du kan upload'e dine designs og filer, tjekke op på om det passer
+              ind i magasinernes generelle udtryk, og kontakte os med spørgsmål.{" "}
+              <br />
               <br />
               Vi kender magasinerne, og vi vil gerne kende dine ønsker.
             </p>

@@ -1,34 +1,32 @@
-"use client"
+"use client";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import Link from 'next/link';
+import Link from "next/link";
 
 // Farver fra PMG
 const colors = {
-  red_color: "#FF0000",    // rød
-  black_color: "#000000",  // sort
-  white_color: "#FFFFFF",  // white
+  red_color: "#FF0000", // rød
+  black_color: "#000000", // sort
+  white_color: "#FFFFFF", // white
   udogse_color: "#000000", // Ud & Se sort
-  samvirke_color: "#FF0000" // Samvirke rød
+  samvirke_color: "#FF0000", // Samvirke rød
 };
 
 // filformater til upload
-const supportedFormats = [
-  ".jpg", ".jpeg", ".png", ".webp"
-];
+const supportedFormats = [".jpg", ".jpeg", ".png", ".webp"];
 
 // Annonce guidelines info
 const adSizeGuide = {
   udogse: [
     { name: "Helside", dimensions: "210 x 297 mm" },
     { name: "Halvside", dimensions: "210 x 148 mm" },
-    { name: "Kvartside", dimensions: "105 x 148 mm" }
+    { name: "Kvartside", dimensions: "105 x 148 mm" },
   ],
   samvirke: [
     { name: "Helside", dimensions: "203 x 253 mm" },
     { name: "Halvside", dimensions: "203 x 126 mm" },
-    { name: "Kvartside", dimensions: "101 x 126 mm" }
-  ]
+    { name: "Kvartside", dimensions: "101 x 126 mm" },
+  ],
 };
 
 // Magasin layout information
@@ -41,35 +39,36 @@ const magazineTemplates = {
     headerFont: "'Helvetica Neue', sans-serif",
     primaryColor: colors.udogse_color,
     secondaryColor: "#F0F4F8",
-    headerImage: "/images/magasin-indhold/udogse_header.jpg", 
+    headerImage: "/images/magasin-indhold/udogse_header.jpg",
     pageImages: [
       // hvert et array element repræsenterer content for en side, og de stiger med 2 (i og med de vises på den side med hele tal)
       {
-        image: "/images/magasin-indhold/organdonationsforeningen-ad-ud-og-se.jpg",
+        image:
+          "/images/magasin-indhold/organdonationsforeningen-ad-ud-og-se.jpg",
         caption: "Organdonationsforeningen annonce for organdonation",
-        headline: "Organdonation"
+        headline: "Organdonation",
       },
       {
         image: "/images/magasin-indhold/7-eleven-ad-ud-og-se.jpg",
         caption: "7-Eleven annonce for croissanter",
-        headline: "7-Eleven Tilbud"
+        headline: "7-Eleven Tilbud",
       },
       {
         image: "/images/magasin-indhold/blaa-kors-ad-ud-og-se.jpg",
         caption: "Blå Kors annonce mod alkoholisme",
-        headline: "Blå Kors"
+        headline: "Blå Kors",
       },
       {
         image: "/images/magasin-indhold/tandex-ad-ud-og-se.jpg",
         caption: "Tandex annonce for mellemrumsbørster",
-        headline: "Tandex"
+        headline: "Tandex",
       },
       {
         image: "/images/magasin-indhold/wwf-ad-ud-og-se.png",
         caption: "WWF annonce for miljøproblemer",
-        headline: "WWF"
-      }
-    ]
+        headline: "WWF",
+      },
+    ],
   },
   samvirke: {
     title: "SAMVIRKE",
@@ -84,71 +83,73 @@ const magazineTemplates = {
       {
         image: "/images/magasin-indhold/albani-ad-samvirke.jpg",
         caption: "Albani annonce for Påskeøl",
-        headline: "Albani Påskeøl"
+        headline: "Albani Påskeøl",
       },
       {
         image: "/images/magasin-indhold/fernet-branca-ad-samvirke.jpg",
         caption: "Fernet Branca annonce for 'Life is Bitter'-kampagnen",
-        headline: "Fernet Branca"
+        headline: "Fernet Branca",
       },
       {
         image: "/images/magasin-indhold/ærø-whiskey-ad-samvirke.jpg",
         caption: "Ærø Whiskey annonce for eget distilleri",
-        headline: "Ærø Whiskey"
+        headline: "Ærø Whiskey",
       },
       {
         image: "/images/magasin-indhold/gigtforeningen-ad-samvirke.jpg",
         caption: "Gigtforeningens annonce for deres ydelser",
-        headline: "Gigtforeningen"
+        headline: "Gigtforeningen",
       },
       {
         image: "/images/magasin-indhold/noah-ad-samvirke.png",
         caption: "Miljøorganisationen NOAH",
-        headline: "NOAH"
-      }
-    ]
-  }
+        headline: "NOAH",
+      },
+    ],
+  },
 };
 
 // MagazineSpread Component - fyld hele din højre side ud
-const MagazineSpread = ({ 
-  selectedMagazine, 
-  currentPage, 
-  currentPageIndex, 
+const MagazineSpread = ({
+  selectedMagazine,
+  currentPage,
+  currentPageIndex,
   selectedImage,
-  imageFitMode, 
-  fileInputRef, 
-  triggerFileInput, 
-  handleFileChange, 
-  toggleImageFitMode, 
+  imageFitMode,
+  fileInputRef,
+  triggerFileInput,
+  handleFileChange,
+  toggleImageFitMode,
   changePageNumber,
-  zoomLevel
+  zoomLevel,
 }) => {
   const template = magazineTemplates[selectedMagazine];
   const currentPageContent = template.pageImages[currentPageIndex];
-  
+
   return (
-    <div 
+    <div
       className="flex flex-col bg-white text-black shadow-xl mx-auto w-full transition-all duration-200"
-      style={{ 
+      style={{
         aspectRatio: "1.3/1", // forsøger at ramme den 420mm x 300mm originale ratio
         maxWidth: "1200px",
-        transform: `scale(${zoomLevel})`
+        transform: `scale(${zoomLevel})`,
       }}
       role="region"
-      aria-label={`${template.title} magazine preview, pages ${currentPage}-${currentPage + 1}`}
+      aria-label={`${template.title} magazine preview, pages ${currentPage}-${
+        currentPage + 1
+      }`}
     >
       {/* Magazine Header */}
-      <div 
+      <div
         className="w-full py-4 px-6 flex items-center justify-between"
-        style={{ 
+        style={{
           backgroundColor: template.primaryColor,
-          color: colors.white_color
+          color: colors.white_color,
         }}
       >
         <div className="flex items-center">
-          <h2 
-            className="text-3xl font-bold" 
+          <h2
+            className="text-3xl font-bold"
             style={{ fontFamily: template.headerFont }}
           >
             {template.title}
@@ -157,20 +158,24 @@ const MagazineSpread = ({
         </div>
         <div className="text-right">
           <p className="text-sm font-medium">APRIL 2025</p>
-          <p className="text-xs">SIDE {currentPage}-{currentPage + 1}</p>
+          <p className="text-xs">
+            SIDE {currentPage}-{currentPage + 1}
+          </p>
         </div>
       </div>
-      
+
       {/* Magazine Content - to sidet spread */}
-      <div 
-        className="flex flex-row w-full flex-grow shadow-xl">
+      <div className="flex flex-row w-full flex-grow shadow-xl">
         {/* Venstre side - Content */}
-        <div className="w-1/2 border-r border-gray-200 relative" style={{ fontFamily: template.fontFamily }}>
+        <div
+          className="w-1/2 border-r border-gray-200 relative"
+          style={{ fontFamily: template.fontFamily }}
+        >
           {/* billede for venstre side */}
           <div className="absolute inset-0">
             <div className="relative w-full h-full">
-              <Image 
-                src={currentPageContent.image} 
+              <Image
+                src={currentPageContent.image}
                 alt={currentPageContent.caption}
                 fill
                 className="object-cover"
@@ -180,7 +185,7 @@ const MagazineSpread = ({
               <span id={`page-${currentPage}-description`} className="sr-only">
                 {currentPageContent.caption}
               </span>
-              
+
               {/* Side nummer overlay */}
               <div className="absolute bottom-0 left-0 right-0 flex justify-center">
                 <div className="text-center text-xs text-black bg-white bg-opacity-70 px-2 py-1 rounded">
@@ -190,23 +195,27 @@ const MagazineSpread = ({
             </div>
           </div>
         </div>
-        
+
         {/* Højre side - annonce upload */}
-        <div className="w-1/2" id="annonce-værktøj" style={{ fontFamily: template.fontFamily }}>
+        <div
+          className="w-1/2"
+          id="annonce-værktøj"
+          style={{ fontFamily: template.fontFamily }}
+        >
           <div className="h-full flex flex-col relative">
             {/* Annoncen fylder hele højre plads */}
             <div className="absolute inset-0">
               {selectedImage ? (
                 <div className="relative w-full h-full">
-                  <Image 
-                    src={selectedImage.previewUrl} 
-                    alt={`Din uploadede annonce: ${selectedImage.name}`} 
+                  <Image
+                    src={selectedImage.previewUrl}
+                    alt={`Din uploadede annonce: ${selectedImage.name}`}
                     fill
-                    className={`object-${imageFitMode}`} 
+                    className={`object-${imageFitMode}`}
                     onClick={triggerFileInput}
                     style={{ cursor: "pointer" }}
                   />
-                  <div 
+                  <div
                     className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white text-xs p-2 rounded"
                     aria-hidden="true"
                   >
@@ -218,48 +227,57 @@ const MagazineSpread = ({
                       e.stopPropagation();
                       toggleImageFitMode();
                     }}
-                    aria-label={imageFitMode === "cover" ? "Vis hele billedet" : "Fyld hele annoncen"}
+                    aria-label={
+                      imageFitMode === "cover"
+                        ? "Vis hele billedet"
+                        : "Fyld hele annoncen"
+                    }
                   >
-                    {imageFitMode === "cover" ? "Vis hele billedet" : "Fyld hele annoncen"}
+                    {imageFitMode === "cover"
+                      ? "Vis hele billedet"
+                      : "Fyld hele annoncen"}
                   </button>
                 </div>
               ) : (
-                <div 
+                <div
                   className="w-full h-full flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-gray-300"
                   onClick={triggerFileInput}
                   role="button"
                   tabIndex={0}
                   aria-label="Klik for at uploade din annonce"
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.key === "Enter" || e.key === " ") {
                       triggerFileInput();
                     }
                   }}
                 >
-                  <svg 
-                    className="h-20 w-20 text-black" 
-                    stroke="currentColor" 
-                    fill="none" 
-                    viewBox="0 0 48 48" 
+                  <svg
+                    className="h-20 w-20 text-black"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
                     aria-hidden="true"
                   >
-                    <path 
-                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" 
-                      strokeWidth={2} 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
-                  <h3 className="mt-4 text-xl font-semibold text-black">Klik for at uploade din annonce</h3>
+                  <h3 className="mt-4 text-xl font-semibold text-black">
+                    Klik for at uploade din annonce
+                  </h3>
                   <p className="mt-2 text-sm text-black">
                     Understøttede formater: {supportedFormats.join(", ")}
                   </p>
                   <p className="mt-2 text-sm text-black">
-                    Annoncestørrelse: {adSizeGuide[selectedMagazine][0].dimensions} (helside)
+                    Annoncestørrelse:{" "}
+                    {adSizeGuide[selectedMagazine][0].dimensions} (helside)
                   </p>
                 </div>
               )}
-              
+
               <input
                 type="file"
                 ref={fileInputRef}
@@ -273,38 +291,60 @@ const MagazineSpread = ({
           </div>
         </div>
       </div>
-      
+
       {/* Magazine Footer */}
-      <div 
+      <div
         className="w-full py-3 px-6 text-sm flex justify-between items-center"
-        style={{ 
+        style={{
           backgroundColor: template.primaryColor,
-          color: colors.white_color
+          color: colors.white_color,
         }}
       >
         <p>© 2025 {selectedMagazine === "udogse" ? "DSB" : "Coop Danmark"}</p>
         <div className="flex items-center gap-4">
-          <button 
+          <button
             className="text-white hover:underline text-sm flex items-center"
             onClick={() => changePageNumber("prev")}
             disabled={currentPage <= 4}
             aria-label="Gå til tidligere sider"
           >
-            <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg
+              className="w-4 h-4 mr-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Tidligere sider
           </button>
           <p>piccolomedia.dk | Forhåndsvisning</p>
-          <button 
+          <button
             className="text-white hover:underline text-sm flex items-center"
             onClick={() => changePageNumber("next")}
             disabled={currentPage >= 98}
             aria-label="Gå til næste sider"
           >
             Næste sider
-            <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <svg
+              className="w-4 h-4 ml-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         </div>
@@ -324,7 +364,7 @@ export default function MagazineAdUploader() {
   const [isMobileView, setIsMobileView] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0); // tænk over hvad der skal vises af content
   const [zoomLevel, setZoomLevel] = useState(1); // New zoom state
-  
+
   // Refs
   const fileInputRef = useRef(null);
 
@@ -367,11 +407,11 @@ export default function MagazineAdUploader() {
       name: file.name,
       type: file.type,
       size: file.size,
-      previewUrl: objectUrl
+      previewUrl: objectUrl,
     });
 
     // Fortæl skærmlæsere at billede blev uploadet
-    const announcement = document.getElementById('a11y-announcement');
+    const announcement = document.getElementById("a11y-announcement");
     if (announcement) {
       announcement.textContent = `Billede ${file.name} er blevet uploadet. Du kan nu se det i magasinet.`;
     }
@@ -385,7 +425,9 @@ export default function MagazineAdUploader() {
   // Brugeren vil gemme annoncen i magasinet
   const downloadMagazine = () => {
     // I en rigtig app ville dette gemme som en PDF
-    alert("Din annonce er nu gemt i magasinet. I en rigtig app ville dette downloade en PDF af magasinet med din annonce.");
+    alert(
+      "Din annonce er nu gemt i magasinet. I en rigtig app ville dette downloade en PDF af magasinet med din annonce."
+    );
   };
 
   // Skift mellem sider i magasinet
@@ -394,13 +436,19 @@ export default function MagazineAdUploader() {
       setCurrentPage(currentPage + 2);
 
       // Gå videre til næste sideindhold
-      const nextIndex = (currentPageIndex + 1) % magazineTemplates[selectedMagazine].pageImages.length;
+      const nextIndex =
+        (currentPageIndex + 1) %
+        magazineTemplates[selectedMagazine].pageImages.length;
       setCurrentPageIndex(nextIndex);
     } else if (direction === "prev" && currentPage > 4) {
       setCurrentPage(currentPage - 2);
 
       // Gå tilbage til forrige sideindhold
-      const prevIndex = (currentPageIndex - 1 + magazineTemplates[selectedMagazine].pageImages.length) % magazineTemplates[selectedMagazine].pageImages.length;
+      const prevIndex =
+        (currentPageIndex -
+          1 +
+          magazineTemplates[selectedMagazine].pageImages.length) %
+        magazineTemplates[selectedMagazine].pageImages.length;
       setCurrentPageIndex(prevIndex);
     }
   };
@@ -420,21 +468,27 @@ export default function MagazineAdUploader() {
     return (
       <div className="fixed inset-0 z-50 bg-white flex items-center justify-center text-center p-6">
         <div>
-          <h1 className="text-2xl font-bold mb-4">Denne forhåndsvisning virker kun på større skærme</h1>
-          <p className="text-md text-black">Brug venligst en tablet eller desktop for at anvende annonceværktøjet.</p>
+          <h1 className="text-2xl font-bold mb-4">
+            Denne forhåndsvisning virker kun på større skærme
+          </h1>
+          <p className="text-md text-black">
+            Brug venligst en tablet eller desktop for at anvende
+            annonceværktøjet.
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ 
-      minHeight: "100vh", 
-      backgroundColor: colors.white_color,
-      color: colors.black_color
-    }}
-    role="application"
-    aria-label="Magasin annonceværktøj"
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: colors.white_color,
+        color: colors.black_color,
+      }}
+      role="application"
+      aria-label="Magasin annonceværktøj"
     >
       {/* styling af slider */}
       <style jsx>{`
@@ -443,49 +497,59 @@ export default function MagazineAdUploader() {
           height: 20px;
           width: 20px;
           border-radius: 50%;
-          background: #FF0000;
+          background: #ff0000;
           cursor: pointer;
           border: 2px solid #ffffff;
-          box-shadow: 0 0 4px rgba(0,0,0,0.3);
+          box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
         }
-        
+
         input[type="range"]::-moz-range-thumb {
           height: 20px;
           width: 20px;
           border-radius: 50%;
-          background: #FF0000;
+          background: #ff0000;
           cursor: pointer;
           border: 2px solid #ffffff;
-          box-shadow: 0 0 4px rgba(0,0,0,0.3);
+          box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
         }
-      `}</style>    
+      `}</style>
       {/* Accessibility announcement område */}
-      <div 
-        aria-live="polite" 
-        id="a11y-announcement" 
-        className="sr-only"
-      ></div>
-      
+      <div aria-live="polite" id="a11y-announcement" className="sr-only"></div>
+
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8 magazine-header">
           <div>
             <h1 className="text-3xl font-black">SE DIN ANNONCE I MAGASINET</h1>
             <p className="text-sm font-medium">
-              Placér din annonce direkte i <strong>Ud & Se</strong> eller <strong>Samvirke</strong> magasinet for Piccolo Media Group.
+              Placér din annonce direkte i <strong>Ud & Se</strong> eller{" "}
+              <strong>Samvirke</strong> magasinet for Piccolo Media Group.
             </p>
           </div>
         </div>
 
         {/* Magazine knapper */}
-        <div className="mb-4" role="radiogroup" aria-labelledby="magazine-selection-label">
-          <h2 className="text-lg font-bold mb-2" id="magazine-selection-label">Vælg magasin</h2>
+        <div
+          className="mb-4"
+          role="radiogroup"
+          aria-labelledby="magazine-selection-label"
+        >
+          <h2 className="text-lg font-bold mb-2" id="magazine-selection-label">
+            Vælg magasin
+          </h2>
           <div className="flex space-x-4">
             <button
-              className="px-4 py-2 rounded-full transition-colors cursor-pointer" 
+              className="px-4 py-2 rounded-full transition-colors cursor-pointer"
               style={{
-                backgroundColor: selectedMagazine === "udogse" ? colors.udogse_color : colors.white_color,
-                color: selectedMagazine === "udogse" ? colors.white_color : colors.black_color,
-                border: selectedMagazine === "udogse" ? "none" : "2px solid black"
+                backgroundColor:
+                  selectedMagazine === "udogse"
+                    ? colors.udogse_color
+                    : colors.white_color,
+                color:
+                  selectedMagazine === "udogse"
+                    ? colors.white_color
+                    : colors.black_color,
+                border:
+                  selectedMagazine === "udogse" ? "none" : "2px solid black",
               }}
               onClick={() => setSelectedMagazine("udogse")}
               aria-pressed={selectedMagazine === "udogse"}
@@ -496,10 +560,19 @@ export default function MagazineAdUploader() {
             <button
               className="px-4 py-2 rounded-full transition-colors cursor-pointer"
               style={{
-                backgroundColor: selectedMagazine === "samvirke" ? colors.samvirke_color : colors.white_color,
-                color: selectedMagazine === "samvirke" ? colors.white_color : "#FF0000",
-                border: selectedMagazine === "samvirke" ? "none" : "2px solid #FF0000"
-              }}              
+                backgroundColor:
+                  selectedMagazine === "samvirke"
+                    ? colors.samvirke_color
+                    : colors.white_color,
+                color:
+                  selectedMagazine === "samvirke"
+                    ? colors.white_color
+                    : "#FF0000",
+                border:
+                  selectedMagazine === "samvirke"
+                    ? "none"
+                    : "2px solid #FF0000",
+              }}
               onClick={() => setSelectedMagazine("samvirke")}
               aria-pressed={selectedMagazine === "samvirke"}
               aria-label="Vælg Samvirke magasin"
@@ -512,8 +585,11 @@ export default function MagazineAdUploader() {
         {/* Magazine Preview Container med overflow handling til zoom */}
         <div className="mb-4 overflow-auto">
           <h2 className="sr-only">Magasin forhåndsvisning</h2>
-          <div className="w-full flex justify-center" style={{ minHeight: `${600 * zoomLevel}px` }}>
-            <MagazineSpread 
+          <div
+            className="w-full flex justify-center"
+            style={{ minHeight: `${600 * zoomLevel}px` }}
+          >
+            <MagazineSpread
               selectedMagazine={selectedMagazine}
               currentPage={currentPage}
               currentPageIndex={currentPageIndex}
@@ -528,9 +604,11 @@ export default function MagazineAdUploader() {
             />
           </div>
         </div>
-                {/* Zoom Slider */}
+        {/* Zoom Slider */}
         <div className="mb-4">
-          <h2 className="text-lg font-bold mb-2" id="zoom-control-label">Zoom</h2>
+          <h2 className="text-lg font-bold mb-2" id="zoom-control-label">
+            Zoom
+          </h2>
           <div className="flex items-center space-x-4">
             <span className="text-sm font-medium">50%</span>
             <input
@@ -542,33 +620,50 @@ export default function MagazineAdUploader() {
               onChange={handleZoomChange}
               className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #FF0000 0%, #FF0000 ${((zoomLevel - 0.5) / (1.5 - 0.5)) * 100}%, #e5e7eb ${((zoomLevel - 0.5) / (1.5 - 0.5)) * 100}%, #e5e7eb 100%)`
+                background: `linear-gradient(to right, #FF0000 0%, #FF0000 ${
+                  ((zoomLevel - 0.5) / (1.5 - 0.5)) * 100
+                }%, #e5e7eb ${
+                  ((zoomLevel - 0.5) / (1.5 - 0.5)) * 100
+                }%, #e5e7eb 100%)`,
               }}
               aria-labelledby="zoom-control-label"
               aria-label={`Zoom niveau: ${Math.round(zoomLevel * 100)}%`}
             />
             <span className="text-sm font-medium">150%</span>
-            <span className="text-sm font-medium ml-4">Nuværende: {Math.round(zoomLevel * 100)}%</span>
+            <span className="text-sm font-medium ml-4">
+              Nuværende: {Math.round(zoomLevel * 100)}%
+            </span>
           </div>
         </div>
-        <p className="text-xs" role="alert">Vær opmærksom på, at denne previewer kun fungerer på tablets & PC - <strong>IKKE</strong> på mobil.</p>
-        
+        <p className="text-xs" role="alert">
+          Vær opmærksom på, at denne previewer kun fungerer på tablets & PC -{" "}
+          <strong>IKKE</strong> på mobil.
+        </p>
+
         {/* Action knapper */}
         <div className="flex justify-end mt-4">
           <button
             className="px-6 py-3 rounded-full transition-colors text-m font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               backgroundColor: isButtonHovered
-                ? (selectedMagazine === "samvirke" ? colors.black_color : colors.red_color)
-                : (selectedMagazine === "samvirke" ? colors.red_color : colors.black_color),
-              color: colors.white_color
+                ? selectedMagazine === "samvirke"
+                  ? colors.black_color
+                  : colors.red_color
+                : selectedMagazine === "samvirke"
+                ? colors.red_color
+                : colors.black_color,
+              color: colors.white_color,
             }}
             onMouseEnter={() => setIsButtonHovered(true)}
             onMouseLeave={() => setIsButtonHovered(false)}
             onClick={downloadMagazine}
             disabled={!selectedImage}
             aria-disabled={!selectedImage}
-            aria-label={!selectedImage ? "Gem annonce i magasinet - Upload et billede først" : "Gem annonce i magasinet"}
+            aria-label={
+              !selectedImage
+                ? "Gem annonce i magasinet - Upload et billede først"
+                : "Gem annonce i magasinet"
+            }
           >
             Gem annonce i magasinet
           </button>
@@ -577,14 +672,25 @@ export default function MagazineAdUploader() {
         {/* Information & specifikationer */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 magazine-footer text-white bg-black rounded-lg">
           <div className="p-4 rounded-md">
-            <h2 className="text-lg font-bold mb-2" id="ad-formats-heading">Annonceformater</h2>
-            <p className="text-sm mb-4">Annoncen skal uploades som et billede i et af følgende formater:</p>
-            
-            <table className="w-full text-sm" aria-labelledby="ad-formats-heading">
+            <h2 className="text-lg font-bold mb-2" id="ad-formats-heading">
+              Annonceformater
+            </h2>
+            <p className="text-sm mb-4">
+              Annoncen skal uploades som et billede i et af følgende formater:
+            </p>
+
+            <table
+              className="w-full text-sm"
+              aria-labelledby="ad-formats-heading"
+            >
               <thead>
                 <tr>
-                  <th className="text-left pb-2" scope="col">Format</th>
-                  <th className="text-left pb-2" scope="col">Dimensioner</th>
+                  <th className="text-left pb-2" scope="col">
+                    Format
+                  </th>
+                  <th className="text-left pb-2" scope="col">
+                    Dimensioner
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -597,31 +703,44 @@ export default function MagazineAdUploader() {
               </tbody>
             </table>
           </div>
-          
+
           <div className="p-4 rounded-md">
-            <h2 className="text-lg font-bold mb-2" id="image-requirements-heading">Billedkrav</h2>
-            <ul className="text-sm space-y-2" aria-labelledby="image-requirements-heading">
-              <li>• Billedfiler skal være i formaterne: {supportedFormats.join(", ")}</li>
+            <h2
+              className="text-lg font-bold mb-2"
+              id="image-requirements-heading"
+            >
+              Billedkrav
+            </h2>
+            <ul
+              className="text-sm space-y-2"
+              aria-labelledby="image-requirements-heading"
+            >
+              <li>
+                • Billedfiler skal være i formaterne:{" "}
+                {supportedFormats.join(", ")}
+              </li>
               <li>• Minimum opløsning: 300 DPI</li>
               <li>• Farverum: CMYK</li>
               <li>• Maksimal filstørrelse: 10 MB</li>
             </ul>
-            
+
             <div className="mt-4">
-              <h3 className="font-bold text-lg mb-1" id="specs-links-heading">Links til specifikationer</h3>
+              <h3 className="font-bold text-lg mb-1" id="specs-links-heading">
+                Links til specifikationer
+              </h3>
               <ul aria-labelledby="specs-links-heading">
                 <li>
                   <Link
-                    className="text-m hover:text-red-500 block" 
+                    className="text-m hover:text-red-500 block"
                     href="https://piccolomedia.dk/wp-content/uploads/SAMVIRKE_Nyeformater.pdf"
                     aria-label="Download prislister og formatmål for Samvirke (PDF)"
                   >
                     Prislister og formatmål for <strong>Samvirke</strong>
-                    </Link>
+                  </Link>
                 </li>
                 <li>
                   <Link
-                    className="text-m hover:text-red-500 block" 
+                    className="text-m hover:text-red-500 block"
                     href="https://piccolomedia.dk/wp-content/uploads/udogse-priser-og-betingelser_DL.pdf"
                     aria-label="Download prislister og formatmål for Ud & Se (PDF)"
                   >

@@ -1,6 +1,6 @@
 "use server";
 
-import { postData } from "../api/api";
+import { postData } from "../lib/api";
 import { revalidatePath } from "next/cache";
 
 export async function actionSubmit(prev, formData) {
