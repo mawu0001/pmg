@@ -6,7 +6,6 @@ import { revalidatePath } from "next/cache";
 export async function actionSubmit(prev, formData) {
   const raw = Object.fromEntries(formData.entries());
 
-  // Begræns til felter der matcher Supabase-tabellen
   const data = {
     name: raw.name || "",
     email: raw.email || "",
