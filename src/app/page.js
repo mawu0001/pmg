@@ -6,14 +6,14 @@ export default function Home() {
     <>
       <section className="relative h-96 w-full">
         <Image
-          src="/images/homepage-indhold/hero-img.jpg"
+          src="/images/homepage-indhold/hero-img.webp"
           alt="Eksempel på magasinannonce"
           fill
           className="object-cover"
           priority
         />
         <article className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center flex flex-col gap-2 place-items-center">
-          <h1 className="text-3xl font-bold text-black uppercase">
+          <h1 className="text-4xl font-medium text-white uppercase">
             PMG
             <span className="underline decoration-red-600 "> ad Previewer</span>
           </h1>
@@ -36,7 +36,7 @@ export default function Home() {
           <Button title="Se mere her" link="Inspiration" />
         </article>
         <Image
-          src="/images/homepage-indhold/inspiration.jpg"
+          src="/images/homepage-indhold/inspiration.webp"
           alt="Eksempel på magasinannonce"
           height={200}
           width={300}
@@ -53,7 +53,7 @@ export default function Home() {
           <Button title="Se mere her" link="Contact" />
         </article>
         <Image
-          src="/images/homepage-indhold/contact.jpg"
+          src="/images/homepage-indhold/contact.webp"
           alt="Eksempel på magasinannonce"
           height={200}
           width={300}

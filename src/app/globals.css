@@ -49,8 +49,12 @@ body {
   color: var(--foreground);
 }
 
-p, a, button {
+p, button {
   font-family: "Roboto Condensed", sans-serif; 
+}
+
+a, h6{
+  font-family: 'Museo', sans-serif;
 }
 
 h1 {
